@@ -1,0 +1,14 @@
+{
+    "questions": [
+        {
+            "question": "What is up man?",
+            "options": ["IDK just chillin","You know how it be", "whats up with you?", "bababooey"],
+            "correctAnswerIdx": 0
+        },
+        {
+            "question": "you good?",
+            "options": ["yea just chillin","nah man iv've been...", "yea dawg u?", "bababooey"],
+            "correctAnswerIdx": 3
+        }
+    ]
+}

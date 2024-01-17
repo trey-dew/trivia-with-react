@@ -5,11 +5,11 @@ import { useState } from "react"
 import StatBar from './components/statbar';
 
 function App() {
-const allQuestions = questions as Questions
+const allQuestions = questions as Questions;
 
-const [currentQuestionIdx, setCurrentQuestion] = useState(0)
-const [correctAnswers, setCorrectAnswers] = useState(0)
-const [incorrectAnswers, setIncorrectAnswers] = useState(0)
+const [currentQuestionIdx, setCurrentQuestion] = useState(0);
+const [correctAnswers, setCorrectAnswers] = useState(0);
+const [incorrectAnswers, setIncorrectAnswers] = useState(0);
 
     return <div>
 <StatBar 
