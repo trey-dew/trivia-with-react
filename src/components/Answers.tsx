@@ -1,11 +1,12 @@
-import { useState} from "react"
-import { Question } from "../types";
-import Answer from "./Answer";
+import { useState } from 'react';
+import { Question } from '../types';
+import Answer from './Answer';
+import Answers_module from './Answers.module.scss';
 
 type Props = {
     question: Question;
     onSubmit: (correct: boolean) => void;
-}
+};
 
 function Answers(props: Props) {
     const [showAnswer, setShowAnswer] = useState(false);
@@ -13,27 +14,27 @@ function Answers(props: Props) {
     const onPress = (idx: number) => {
         setShowAnswer(true);
         props.onSubmit(props.question.correctAnswerIdx === idx);
-    }
+    };
 
     return (
-    <div>
-        {props.question.options.map((Option, idx) => {
-            let color = '';
+        <div className={Answers_module.options}>
+            {props.question.options.map((Option, idx) => {
+                let color = '';
 
-            if(showAnswer && props.question.correctAnswerIdx === idx) color = 'green';
-            else if (showAnswer) color = 'red';
+                if (showAnswer && props.question.correctAnswerIdx === idx) color = 'green';
+                else if (showAnswer) color = 'red';
 
-            return (
-                <Answer
-                    text={Option} 
-                    onPress={() => onPress(idx)} 
-                    color={color} 
-                    disabled={showAnswer}
-                    key={idx}
-                />
-            );
-        })}
-    </div>
+                return (
+                    <Answer
+                        text={Option}
+                        onPress={() => onPress(idx)}
+                        color={color}
+                        disabled={showAnswer}
+                        key={idx}
+                    />
+                );
+            })}
+        </div>
     );
 }
 
