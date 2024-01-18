@@ -8,9 +8,23 @@ import QuestionComp from './components/Question';
 function App() {
 const allQuestions = questions as Questions;
 
-const [currentQuestionIdx, setCurrentQuestion] = useState(0);
+const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
 const [correctAnswers, setCorrectAnswers] = useState(0);
 const [incorrectAnswers, setIncorrectAnswers] = useState(0);
+
+const [waitingToAdvance, setWaitingToAdvance] = useState(false);
+
+const onSubmit = (correct: boolean) => {
+    if(correct) setCorrectAnswers(correctAnswers + 1);
+    else setIncorrectAnswers(incorrectAnswers + 1);
+
+    setWaitingToAdvance(true);
+};
+
+const advance = () => { 
+    setWaitingToAdvance(false);
+    setCurrentQuestionIdx(currentQuestionIdx + 1);
+}
 
     return ( 
         <div>
@@ -22,8 +36,9 @@ const [incorrectAnswers, setIncorrectAnswers] = useState(0);
             />
             <QuestionComp 
                 question={allQuestions.questions[currentQuestionIdx]} 
-                onSubmit={() => {}}
+                onSubmit={onSubmit}
             />
+            {waitingToAdvance && <button onClick={advance}>Next Question...</button>}
         </div>
     );
 }
