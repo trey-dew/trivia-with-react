@@ -1,7 +1,27 @@
 .reset-btn {
-    width: 100%;
+    padding: 1% 25%;
+    margin-top: 2%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+    margin-right: 0%;
+    margin-left: 0%;
+    width: auto;
 }
 
 .reset-text {
     font-family: Verdana, sans-serif;
+    margin-right: 0%;
+    padding-right: 0%;
+    padding-left: 0%;
+    position: relative;
+    left: 45%;
+    right: 25%;
+}
+
+.end-screen {
+    padding: 8%;
 }

@@ -10,7 +10,7 @@ type Props = {
 
 function Reset(props: Props) {
     return (
-        <div>
+        <div className={Reset_module['end-screen']}>
             <h1 className={Reset_module['reset-text']}>
                 You scored: {(props.correctQuestions / props.totalQuestions) * 100}%
             </h1>
