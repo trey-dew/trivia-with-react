@@ -11,7 +11,8 @@ function StatBar(props: Props) {
     return (
         <div className={Statbar_module['stat-container']}>
             <p>
-                Questions: {props.currentQuestion}/{props.totalQuestions} Correct: {props.correct}{' '}
+                Questions: {
+                props.currentQuestion}/{props.totalQuestions} Correct: {props.correct}{' '}
                 Incorrect: {props.incorrect}
             </p>
         </div>

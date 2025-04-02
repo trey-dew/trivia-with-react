@@ -1,5 +1,24 @@
 .reset-btn {
-    padding: 1% 25%;
+    
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    width: auto;
+    padding: 1% 20%;
+    margin-top: 2%;
+}
+
+.reset-text {
+    font-family: Verdana, sans-serif;
+    text-align: center;
+    align-items: center;
+    position: static;
+    justify-content: center;
+    justify-items: center;
+    padding: 1% 20%;
     margin-top: 2%;
     text-align: center;
     display: flex;
@@ -10,17 +29,6 @@
     margin-right: 0%;
     margin-left: 0%;
     width: auto;
-}
-
-.reset-text {
-    font-family: Verdana, sans-serif;
-    margin-right: 0%;
-    padding-right: 0%;
-    padding-left: 0%;
-    position: static;
-    left: 45%;
-    right: 25%;
-    margin-left: 50%;
 }
 
 .end-screen {
