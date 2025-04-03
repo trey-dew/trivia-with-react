@@ -9,6 +9,11 @@
             "question": "you good?",
             "options": ["yea just chillin","nah man iv've been...", "yea dawg u?", "bababooey"],
             "correctAnswerIdx": 3
+        },
+        {
+            "question": "Hows the wife?",
+            "options": ["yea just chillin","nah man iv've been...", "yea dawg u?", "bababooey"],
+            "correctAnswerIdx": 1
         }
     ]
 }
