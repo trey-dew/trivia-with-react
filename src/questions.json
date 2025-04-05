@@ -1,19 +1,22 @@
 {
     "questions": [
         {
-            "question": "What is up man?",
-            "options": ["IDK just chillin","You know how it be", "whats up with you?", "bababooey"],
-            "correctAnswerIdx": 0
+            "question": "What does Drew Gooden Say in this icon Vine",
+            "options": ["Uh, Yeah. I sure hope it does","Well it better!", "Now why would it do that?", "Im Drew baby"],
+            "correctAnswerIdx": 0,
+            "video": "road_work_ahead.mp4"
         },
         {
             "question": "you good?",
             "options": ["yea just chillin","nah man iv've been...", "yea dawg u?", "bababooey"],
-            "correctAnswerIdx": 3
+            "correctAnswerIdx": 3,
+            "video": "What_the_fuck_richard.mp4"
         },
         {
             "question": "Hows the wife?",
             "options": ["yea just chillin","nah man iv've been...", "yea dawg u?", "bababooey"],
-            "correctAnswerIdx": 1
+            "correctAnswerIdx": 1,
+            "video": "road_work_ahead.mp4"
         }
     ]
 }

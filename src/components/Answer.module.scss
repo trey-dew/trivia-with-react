@@ -1,4 +1,5 @@
 .answer {
+    font-size: large;
     width: 45%;
     padding: 10px;
     background-color: #1A1717;
@@ -9,6 +10,6 @@
     border-radius: 10px;
 
     &:hover {
-        border: 1px solid rgb(23, 23, 225);
+        border: 3px solid rgb(23, 23, 225);
     }
 }
