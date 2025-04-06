@@ -4,19 +4,25 @@
             "question": "What does Drew Gooden Say in this icon Vine",
             "options": ["Uh, Yeah. I sure hope it does","Well it better!", "Now why would it do that?", "Im Drew baby"],
             "correctAnswerIdx": 0,
-            "video": "road_work_ahead.mp4"
+            "video": "road_work_ahead.mp4",
+            "start": 0,
+            "pause": 2.5
         },
         {
             "question": "you good?",
             "options": ["yea just chillin","nah man iv've been...", "yea dawg u?", "bababooey"],
             "correctAnswerIdx": 3,
-            "video": "What_the_fuck_richard.mp4"
+            "video": "what_the_fuck_richard.mp4",
+            "start": 2.5,
+            "pause": 5
         },
         {
             "question": "Hows the wife?",
             "options": ["yea just chillin","nah man iv've been...", "yea dawg u?", "bababooey"],
             "correctAnswerIdx": 1,
-            "video": "road_work_ahead.mp4"
+            "video": "road_work_ahead.mp4",
+            "start": 2.5,
+            "pause": 5
         }
     ]
 }

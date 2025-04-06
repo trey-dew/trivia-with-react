@@ -7,4 +7,6 @@ export type Question = {
     options: string[];
     correctAnswerIdx: number;
     video: string;
+    start: number;
+    pause: number;
 }
