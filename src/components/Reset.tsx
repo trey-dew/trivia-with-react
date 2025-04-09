@@ -22,7 +22,7 @@ function Reset(props: Props) {
                     Reset_module['reset-btn']
                 )}
             >
-                Press to Try Again
+                Press to return home
             </button>
         </div>
     );

@@ -4,7 +4,7 @@ import Home_module from './Home.module.scss';
 type Props = {
     totalQuestions: number;
     correctQuestions: number;    
-    onPress: () => void;
+    onPress: (difficulty: string) => void;
 };
 
 function Home(props: Props) {
@@ -15,19 +15,25 @@ function Home(props: Props) {
             </h1>
 
             <div className={Home_module.inlineButtons}>
-                <button className={Home_module.optionButton}>
+                <button
+                    onClick={() =>{props.onPress("Daily")}} 
+                    className={Home_module.optionButton}>
                     Daily
                 </button>
-                <button className={Home_module.optionButton}>
+                <button 
+                    onClick={() =>{props.onPress("Iconic")}}
+                    className={Home_module.optionButton}>
                     Iconic
                 </button>
-                <button className={Home_module.optionButton}>
+                <button 
+                    onClick={() =>{props.onPress("Hard")}}
+                    className={Home_module.optionButton}>
                     Hard
                 </button>
             </div>
 
             <button
-                onClick={props.onPress}
+                 onClick={() =>{props.onPress("Default")}}
                 className={Home_module.startButton}
             >
                 Start Quiz
