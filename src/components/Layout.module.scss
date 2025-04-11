@@ -1,0 +1,107 @@
+.next-btn {
+    margin: 2% 10px 0px;
+    align-self: center;
+    padding: 10% 0%;
+    position: relative;
+    top: 5%;
+    bottom: 25%;
+    left: 25%;
+    right: 25%;
+  }
+  
+  .appWrapper {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .sidebar {
+    width: 200px;
+    background-color: grey;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.5rem;
+    transition: width 0.3s ease, padding 0.3s ease;
+  }
+  
+  .sidebar button {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .sidebar button:hover {
+    background-color: #d6d6d6;
+  }
+  
+  .collapsed {
+    width: 40px; // enough for a toggle button
+    padding: 0.5rem 0.25rem;
+    overflow: hidden;
+    align-items: center;
+  }
+  
+  .collapsed button {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  
+  .mainContent {
+    flex-grow: 1;
+    padding: 2rem;
+    overflow-y: auto;
+    transition: margin 0.3s ease;
+  }
+
+  .toggleButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggleButton svg {
+    color: #333;  // You can change the color of the icon here
+    width: 24px;  // You can adjust the size
+    height: 24px;
+}
+
+
+.hamburger,
+.hamburger::before,
+.hamburger::after {
+    content: '';
+    display: block;
+    height: 4px;
+    background-color: #333;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.hamburger {
+    position: relative;
+}
+
+.hamburger::before {
+    position: absolute;
+    top: -8px;
+    width: 100%;
+}
+
+.hamburger::after {
+    position: absolute;
+    top: 8px;
+    width: 100%;
+}
+
+  
