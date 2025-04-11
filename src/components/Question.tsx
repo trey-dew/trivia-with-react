@@ -20,7 +20,7 @@ function QuestionComp({question, videoSrc, videoRef, playDisabled,showReplay, on
         <div className={Question_module.app}>
             <h3 className={Question_module.question}>{question.question}</h3>
             <div className={Question_module.video}>
-                <video ref={videoRef} width="600" autoPlay>
+                <video key={videoSrc} ref={videoRef} width="600" autoPlay>
                     <source src={videoSrc} type="video/mp4"/>
                 </video>                    
             </div>

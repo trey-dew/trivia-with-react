@@ -9,6 +9,8 @@ import Reset from './components/Reset';
 import Home from './components/Home';
 import Answer_module from './components/Answer.module.scss';
 import Classnames from 'classnames';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Homes from './components/Home'
 
 // Preload all video files in the assets folder
 const videoMap = import.meta.glob('./assets/videos/*.mp4', { eager: true });
@@ -116,7 +118,7 @@ function App() {
             video.removeEventListener('timeupdate', handleTimeUpdate);
             video.removeEventListener('ended', handleVideoEnded);
         };
-    }, [currentQuestionIdx, playFullVideo, isQuizFinished, videoSrc]);
+    }, [currentQuestionIdx, playFullVideo, isQuizFinished, videoSrc, startQuiz]);
 
     // Seek to the start time of the video on load
     useEffect(() => {
@@ -151,6 +153,7 @@ function App() {
     const start = (selectedDifficulty: string) => {
         setDifficulty(selectedDifficulty);
         setShowHomePage(false);
+        setPlayFullVideo(false);
         setStartQuiz(true);
     };
 
@@ -169,11 +172,12 @@ const layout = (
             {/* Sidebar buttons (hidden when collapsed) */}
             {!sidebarCollapsed && (
                 <>
-                    <button>Button 1</button>
-                    <button>Button 2</button>
-                    <button>Button 3</button>
-                    <button>Button 4</button>
-                    <button>Button 5</button>
+                    <button>Home</button>
+                    <button>Archive</button>
+                    <button>How to Play</button>
+                    <button>Endless</button>
+                    <button>Hard</button>
+                    <button>Contact</button>
                 </>
             )}
         </aside>
