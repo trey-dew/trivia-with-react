@@ -10,7 +10,9 @@ import Home from './components/Home';
 import Answer_module from './components/Answer.module.scss';
 import Classnames from 'classnames';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Homes from './components/Home'
+import Homepage from './pages/Homepage';
+import Quizpage from './pages/Quizpage';
+import Resultspage from './pages/Resultspage';
 
 // Preload all video files in the assets folder
 const videoMap = import.meta.glob('./assets/videos/*.mp4', { eager: true });
