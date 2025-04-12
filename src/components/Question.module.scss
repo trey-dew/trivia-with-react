@@ -39,3 +39,11 @@
         border: 3px solid rgb(23, 23, 225);
     }
 }
+
+.next-btn {
+    margin: 2rem auto 0;
+    padding: 1rem 2rem;
+    display: block;
+    text-align: center;
+    position: static; /* Remove relative positioning unless necessary */
+}

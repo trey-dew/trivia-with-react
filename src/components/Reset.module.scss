@@ -11,6 +11,16 @@
     margin-top: 2%;
 }
 
+
+.next-btn {
+    margin: 2rem auto 0;
+    padding: 1rem 2rem;
+    display: block;
+    text-align: center;
+    position: static; /* Remove relative positioning unless necessary */
+}
+
+
 .reset-text {
     font-family: Verdana, sans-serif;
     text-align: center;
