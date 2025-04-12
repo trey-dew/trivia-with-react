@@ -4,8 +4,8 @@
             "question": "What does Drew Gooden Say in this icon Vine",
             "options": ["Uh, Yeah. I sure hope it does","Well it better!", "Now why would it do that?", "Im Drew baby"],
             "correctAnswerIdx": 0,
-            "video": "road_work_ahead.mp4",
-            "start": 1,
+            "video": "i_want_to_see_my.mp4",
+            "start": 0,
             "pause": 2.5
         },
         {
