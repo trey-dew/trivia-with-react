@@ -1,36 +1,32 @@
-import Home from '../components/Home'
-import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAtom } from 'jotai';
+import Home from '../components/Home';
+
+import {
+  difficultyAtom,
+  homePageVisibleAtom,
+  quizStartedAtom,
+} from '../atoms';
 
 function Homepage() {
-    const [difficulty, setDifficulty] = useState("default");
-    const [showHomePage, setShowHomePage] = useState(true);
-    const [startQuiz, setStartQuiz] = useState(false);
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const start = (selectedDifficulty: string) => {
-        setDifficulty(selectedDifficulty);
-        setShowHomePage(false);
-        setStartQuiz(true);
-        navigate('/daily');
-    };
+  // Global state via Jotai atoms
+  const [, setDifficulty] = useAtom(difficultyAtom);
+  const [, setShowHomePage] = useAtom(homePageVisibleAtom);
+  const [, setStartQuiz] = useAtom(quizStartedAtom);
 
-    return (
+  // Handler when user selects a difficulty and begins the quiz
+  const start = (selectedDifficulty: string) => {
+    setDifficulty(selectedDifficulty);     
+    setShowHomePage(false);                
+    setStartQuiz(true);                   
+    navigate('/daily');                    
+  };
 
-        <Home onPress={start}/>
-
-
-        //Legacy RN logic handled in Home
-         //Show home screen if quiz hasn't started
-                // <Home
-                    //totalQuestions={allQuestions.questions.length}
-                    //correctQuestions={correctAnswers}
-                   // onPress={start} // Starts the quiz
-               // />
-
-
-               // <button onClick={() => navigate('/')}>Home</button>
-    );
+  return (
+    <Home onPress={start} />
+  );
 }
 
 export default Homepage;

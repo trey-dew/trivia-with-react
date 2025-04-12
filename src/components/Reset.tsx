@@ -4,24 +4,36 @@ import Classnames from 'classnames';
 import Reset_module from './Reset.module.scss';
 import { useNavigate } from 'react-router-dom';
 
+import { useAtom } from 'jotai';
+import {
+  correctAnswersAtom,
+  incorrectAnswersAtom,
+  currentQuestionIdxAtom,
+  resetQuizAtom,
+} from '../atoms';
 
 
-type Props = {
-    totalQuestions: number;
-    correctQuestions: number;    
-    onPress: () => void;
-};
 
-function Reset(props: Props) {
+function Reset() {
+
+    const [correctAnswers] = useAtom(correctAnswersAtom);
+    const [questionIdx] = useAtom(currentQuestionIdxAtom);
+    const [, resetQuiz] = useAtom(resetQuizAtom);
+
     const navigate = useNavigate();
+
+    const handleReset = () => {
+        resetQuiz(); // clear all global state
+        navigate('/'); // go home
+      };
     return (
         <div className={Reset_module['end-screen']}>
             <h1 className={Reset_module['reset-text']}>
-                You scored: {Math.trunc(props.correctQuestions / props.totalQuestions * 100)}%
+                You scored: {Math.trunc(correctAnswers / questionIdx * 100)}%
             </h1>
             <button
             //onClick={() =>{props.onPress("Daily"), navigate('/results')}} 
-                onClick={() =>{ navigate('/')}}
+                onClick={handleReset}
                 className={Classnames(
                     Answer_module.answer,
                     App_module['next-btn'],
