@@ -18,6 +18,7 @@ import {
 
 import styles from '../App.module.scss';
 import Answer_module from '../components/Answer.module.scss';
+import question_module from '../components/Question.module.scss';
 import Classnames from 'classnames';
 
 // Eagerly preload all videos so they're ready when needed
@@ -168,7 +169,7 @@ function Quizpage() {
           {waitingToAdvance && (
             <button
               onClick={advance}
-              className={Classnames(Answer_module.answer, styles['next-btn'])}
+              className={Classnames(Answer_module.answer, question_module['next-btn'])}
             >
               Next Question...
             </button>

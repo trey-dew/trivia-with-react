@@ -1,18 +1,39 @@
-.next-btn {
-    margin: 2% 10px 0px;
-    align-self: center;
-    padding: 10% 0%;
-    position: relative;
-    top: 5%;
-    bottom: 25%;
-    left: 25%;
-    right: 25%;
-  }
+// .next-btn {
+//     margin: 2% 10px 0px;
+//     align-self: center;
+//     padding: 10% 0%;
+//     position: relative;
+//     top: 5%;
+//     bottom: 25%;
+//     left: 25%;
+//     right: 25%;
+//   }
+
+  /* Add this to App.module.scss or global.css */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden; /* hides horizontal scroll */
+  box-sizing: border-box;
+}
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: sans-serif; /* or whatever you use */
+}
+
   
-  .appWrapper {
-    display: flex;
-    height: 100vh;
-  }
+.appWrapper {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  overflow-x: hidden;
+  overflow-y: hidden; /* often necessary */
+}
   
   .sidebar {
     width: 200px;
@@ -52,13 +73,13 @@
     text-overflow: ellipsis;
   }
   
-  
   .mainContent {
-    flex-grow: 1;
+    flex-grow: 0;
     padding: 2rem;
     overflow-y: auto;
-    transition: margin 0.3s ease;
+    margin-bottom: 0 !important;
   }
+  
 
   .toggleButton {
     background: none;
