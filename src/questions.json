@@ -23,6 +23,22 @@
             "video": "fresh_avocado_vine.mp4",
             "start": 0,
             "pause": 2
+        },
+        {
+            "question": "Hows the wife?",
+            "options": ["yea just chillin","fre sha voc a do", "yea dawg u?", "bababooey"],
+            "correctAnswerIdx": 1,
+            "video": "so_no_head.mp4",
+            "start": 0,
+            "pause": 2
+        },
+        {
+            "question": "Hows the wife?",
+            "options": ["yea just chillin","fre sha voc a do", "yea dawg u?", "bababooey"],
+            "correctAnswerIdx": 1,
+            "video": "michael_with_a_b.mp4",
+            "start": 0,
+            "pause": 2
         }
     ]
 }
