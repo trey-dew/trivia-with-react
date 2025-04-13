@@ -31,10 +31,10 @@ function Home({ onPress }: Props) {
       </div>
 
       <button
-        onClick={() => onPress('Default')}
+        onClick={() => onPress('Endless')}
         className={Home_module.startButton}
       >
-        Start Quiz
+        Endless Mode
       </button>
     </div>
   );

@@ -25,7 +25,7 @@ const Layout = () => {
                         <button onClick={() => navigate('/')}>Home</button>
                         <button onClick={() => navigate('/daily')}>Archive</button>
                         <button onClick={() => navigate('/howtoplay')}>How to Play</button>
-                        <button onClick={() => navigate('/results')}>Endless</button>
+                        <button onClick={() => navigate('/endless')}>Endless</button>
                         <button onClick={() => navigate('/results')}>Hard</button>
                         <button onClick={() => navigate('/results')}>Contact</button>
                     </>

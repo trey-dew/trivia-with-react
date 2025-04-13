@@ -17,6 +17,7 @@ function App() {
                     <Route path="daily" element={<Quizpage />} />
                     <Route path="results" element={<Resultspage />} />
                     <Route path="howtoplay" element={<HowToPlay />} />
+                    <Route path="endless" element={<Quizpage />} />
                 </Route>
             </Routes>
         </Router>

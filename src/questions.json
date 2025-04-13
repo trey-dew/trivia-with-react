@@ -53,6 +53,43 @@
             "start": 0,
             "pause": 5.35,
             "day": 1
+        },
+        {
+            "question": "What does this person want to be?",
+            "options": ["A doctor","A clothing Hanger", "An Avacado", "Peanut Butter"],
+            "correctAnswerIdx": 1,
+            "video": "i_dont_need_a_degree.mp4",
+            "start": 0,
+            "pause": 3,
+            "day": 1
+        },
+        {
+            "question": "What does this man want to be?",
+            "options": ["A Cowboy Baby","A firefighter", "A prince of persia", "The pope"],
+            "correctAnswerIdx": 0,
+            "video": "i_wanna_be_a cowboy_baby_vine.mp4",
+            "start": 0,
+            "pause": 1,
+            "day": 1
+        },
+        {
+            "question": "How does this man express his admiration?",
+            "options": ["that was legit","Dude what a move", "Oh he on x-games mode", "Fortnite battlepass"],
+            "correctAnswerIdx": 2,
+            "video": "x_games_mode.mp4",
+            "start": 0,
+            "pause": 4,
+            "day": 1
+        },
+        {
+            "question": "What the rest of this song about the cat?",
+            "options": ["Thats a man","Thats my boy", "He's a cat", "Here he comes"],
+            "correctAnswerIdx": 3,
+            "video": "i_want_to_see_my.mp4",
+            "start": 0,
+            "pause": 4,
+            "day": 1
         }
+        
     ]
 }

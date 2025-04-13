@@ -55,7 +55,7 @@ function Quizpage() {
    // Calculate based on the day based in for daily
  const getFilteredQuestions = () => {
   if (gameMode === 'Daily') {
-    return (questions as Questions).questions.filter(q => q.day === 0);
+    return (questions as Questions).questions.filter(q => q.day === 1); // CHANGE THIS IF WANT TO TEST DIFFERNT DAY
   } else if (gameMode === 'Endless') {
     return (questions as Questions).questions; // all of them
   }
@@ -70,7 +70,9 @@ const filteredQuestions = getFilteredQuestions();
   const currentQuestion = filteredQuestions[currentQuestionIdx];
 
   // gets the quizdate from quesitons day
-  const quizDate = getDateFromDayOffset(currentQuestion?.day || 0);
+  const quizDate = gameMode !== 'Endless'
+    ? getDateFromDayOffset(currentQuestion?.day || 0)
+    : undefined;
 
 
   const videoSrc = !isQuizFinished && currentQuestion?.video

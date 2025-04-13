@@ -5,7 +5,7 @@ type Props = {
     totalQuestions: number;
     correct: number;
     incorrect: number;
-    quizDate?: String;
+    quizDate?: string;
 };
 
 function StatBar(props: Props) {
@@ -15,7 +15,7 @@ function StatBar(props: Props) {
                 Questions: {props.currentQuestion}/{props.totalQuestions} &nbsp;
                 Correct: {props.correct} &nbsp;
                 Incorrect: {props.incorrect} &nbsp;
-                Date: {props.quizDate}
+                {props.quizDate && <>Date: {props.quizDate}</>}
             </p>
         </div>
     );
