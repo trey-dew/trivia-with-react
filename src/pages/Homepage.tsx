@@ -3,7 +3,7 @@ import { useAtom } from 'jotai';
 import Home from '../components/Home';
 
 import {
-  difficultyAtom,
+  gameModeAtom,
   homePageVisibleAtom,
   quizStartedAtom,
 } from '../atoms';
@@ -12,7 +12,7 @@ function Homepage() {
   const navigate = useNavigate();
 
   // Global state via Jotai atoms
-  const [, setDifficulty] = useAtom(difficultyAtom);
+  const [, setDifficulty] = useAtom(gameModeAtom);
   const [, setShowHomePage] = useAtom(homePageVisibleAtom);
   const [, setStartQuiz] = useAtom(quizStartedAtom);
 

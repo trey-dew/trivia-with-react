@@ -9,4 +9,5 @@ export type Question = {
     video: string;
     start: number;
     pause: number;
+    day: number;
 }

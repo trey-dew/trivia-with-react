@@ -11,7 +11,7 @@ import {
   currentQuestionIdxAtom,
   correctAnswersAtom,
   incorrectAnswersAtom,
-  difficultyAtom,
+  gameModeAtom,
   quizStartedAtom,
   homePageVisibleAtom,
 } from '../atoms';
@@ -24,15 +24,22 @@ import Classnames from 'classnames';
 // Eagerly preload all videos so they're ready when needed
 const videoMap = import.meta.glob('../assets/videos/*.mp4', { eager: true });
 
+// gets and sets the date based off the question day value
+function getDateFromDayOffset(offset: number): string {
+  const baseDate = new Date(2025, 3, 12); // Months are 0-indexed (3 = April) CHANGE THIS IF WANT NEW START DATE
+  baseDate.setDate(baseDate.getDate() + offset);
+  return baseDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+
 function Quizpage() {
   const navigate = useNavigate();
-  const allQuestions = questions as Questions;
 
   // Global state (Jotai atoms)
   const [currentQuestionIdx, setCurrentQuestionIdx] = useAtom(currentQuestionIdxAtom);
   const [correctAnswers, setCorrectAnswers] = useAtom(correctAnswersAtom);
   const [incorrectAnswers, setIncorrectAnswers] = useAtom(incorrectAnswersAtom);
-  const [difficulty] = useAtom(difficultyAtom);
+  const [gameMode] = useAtom(gameModeAtom);
   const [startQuiz] = useAtom(quizStartedAtom);
   const [showHomePage] = useAtom(homePageVisibleAtom);
 
@@ -45,9 +52,27 @@ function Quizpage() {
 
   const videoRef = useRef<HTMLVideoElement>(null);
 
+   // Calculate based on the day based in for daily
+ const getFilteredQuestions = () => {
+  if (gameMode === 'Daily') {
+    return (questions as Questions).questions.filter(q => q.day === 0);
+  } else if (gameMode === 'Endless') {
+    return (questions as Questions).questions; // all of them
+  }
+  // Add more modes here
+  return [];
+};
+
+const filteredQuestions = getFilteredQuestions();
+
   // Derived values
-  const isQuizFinished = currentQuestionIdx >= allQuestions.questions.length;
-  const currentQuestion = allQuestions.questions[currentQuestionIdx];
+  const isQuizFinished = currentQuestionIdx >= filteredQuestions.length;
+  const currentQuestion = filteredQuestions[currentQuestionIdx];
+
+  // gets the quizdate from quesitons day
+  const quizDate = getDateFromDayOffset(currentQuestion?.day || 0);
+
+
   const videoSrc = !isQuizFinished && currentQuestion?.video
     ? (videoMap[`../assets/videos/${currentQuestion.video}`] as any)?.default
     : undefined;
@@ -135,7 +160,7 @@ function Quizpage() {
     if (isQuizFinished) {
       navigate('/results', {
         state: {
-          totalQuestions: allQuestions.questions.length,
+          totalQuestions: filteredQuestions.length,
           correctAnswers,
           incorrectAnswers,
         },
@@ -149,11 +174,11 @@ function Quizpage() {
         <>
           <StatBar
             currentQuestion={currentQuestionIdx + 1}
-            totalQuestions={allQuestions.questions.length}
+            totalQuestions={filteredQuestions.length}
             correct={correctAnswers}
             incorrect={incorrectAnswers}
+            quizDate={quizDate}
           />
-
           {videoSrc && (
             <QuestionComp
               question={currentQuestion}

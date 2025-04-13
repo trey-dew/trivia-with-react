@@ -5,15 +5,17 @@ type Props = {
     totalQuestions: number;
     correct: number;
     incorrect: number;
+    quizDate?: String;
 };
 
 function StatBar(props: Props) {
     return (
         <div className={Statbar_module['stat-container']}>
             <p>
-                Questions: {
-                props.currentQuestion}/{props.totalQuestions} Correct: {props.correct}{' '}
-                Incorrect: {props.incorrect}
+                Questions: {props.currentQuestion}/{props.totalQuestions} &nbsp;
+                Correct: {props.correct} &nbsp;
+                Incorrect: {props.incorrect} &nbsp;
+                Date: {props.quizDate}
             </p>
         </div>
     );

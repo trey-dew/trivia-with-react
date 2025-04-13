@@ -4,41 +4,55 @@
             "question": "What does Drew Gooden Say in this icon Vine",
             "options": ["Uh, Yeah. I sure hope it does","Well it better!", "Now why would it do that?", "Im Drew baby"],
             "correctAnswerIdx": 0,
-            "video": "i_want_to_see_my.mp4",
+            "video": "road_work_ahead.mp4",
             "start": 0,
-            "pause": 2.5
+            "pause": 2.5,
+            "day": 0
         },
         {
-            "question": "you good?",
-            "options": ["yea just chillin","nah man iv've been...", "yea dawg u?", "What the fuck, Richard"],
+            "question": "What does this guy say to Richard?",
+            "options": ["Welp there it goes","Fuck dude that was my disc", "Bro what the hell", "What the fuck, Richard"],
             "correctAnswerIdx": 3,
             "video": "what_the_fuck_richard.mp4",
             "start": 0,
-            "pause": 3
+            "pause": 3,
+            "day": 0
         },
         {
-            "question": "Hows the wife?",
-            "options": ["yea just chillin","fre sha voc a do", "yea dawg u?", "bababooey"],
+            "question": "What does this del taco sign advertise?",
+            "options": ["Free Tacos","fre sha voc a do", "Homie Meal", "Fresh Tomatoes"],
             "correctAnswerIdx": 1,
             "video": "fresh_avocado_vine.mp4",
             "start": 0,
-            "pause": 2
+            "pause": 2,
+            "day": 0
         },
         {
-            "question": "Hows the wife?",
-            "options": ["yea just chillin","fre sha voc a do", "yea dawg u?", "bababooey"],
-            "correctAnswerIdx": 1,
+            "question": "What news is this gentleman on the phone going to receieve",
+            "options": ["So no head?","Im going to be a dad?", "We won the lottery?", "You're cheating on me?"],
+            "correctAnswerIdx": 0,
             "video": "so_no_head.mp4",
             "start": 0,
-            "pause": 2
+            "pause": 2,
+            "day": 0
         },
         {
-            "question": "Hows the wife?",
-            "options": ["yea just chillin","fre sha voc a do", "yea dawg u?", "bababooey"],
-            "correctAnswerIdx": 1,
+            "question": "How does michael re-act to this question",
+            "options": ["Im just kidding","AHHHHHHHH", "the b is in the front", "theres a bee?"],
+            "correctAnswerIdx": 3,
             "video": "michael_with_a_b.mp4",
             "start": 0,
-            "pause": 2
+            "pause": 5.55,
+            "day": 0
+        },
+        {
+            "question": "How does this guy react to being punched",
+            "options": ["Harder daddy","Ouchie wouchie", "I can't beleive you've done this", "Hell yeah brother"],
+            "correctAnswerIdx": 2,
+            "video": "cant_beleive_this.mp4",
+            "start": 0,
+            "pause": 5.35,
+            "day": 1
         }
     ]
 }
