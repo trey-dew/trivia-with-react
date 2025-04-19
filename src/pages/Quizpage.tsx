@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import questions from '../questions.json';
 import { Questions } from '../types';
-
 import QuestionComp from '../components/Question';
 import StatBar from '../components/statbar';
 
@@ -26,7 +25,7 @@ const videoMap = import.meta.glob('../assets/videos/*.mp4', { eager: true });
 
 // gets and sets the date based off the question day value
 function getDateFromDayOffset(offset: number): string {
-  const baseDate = new Date(2025, 3, 12); // Months are 0-indexed (3 = April) CHANGE THIS IF WANT NEW START DATE
+  const baseDate = new Date(2025, 3, 20); // Months are 0-indexed (3 = April) CHANGE THIS IF WANT NEW START DATE
   baseDate.setDate(baseDate.getDate() + offset);
   return baseDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
 }
@@ -49,17 +48,21 @@ function Quizpage() {
   const [showReplay, setShowReplay] = useState(false);
   const [playFullVideo, setPlayFullVideo] = useState(false);
   const [hasPaused, setHasPaused] = useState(false);
+  const [questionTimes, setQuestionTimes] = useState<number[]>([]);
 
   const videoRef = useRef<HTMLVideoElement>(null);
 
    // Calculate based on the day based in for daily
  const getFilteredQuestions = () => {
   if (gameMode === 'Daily') {
-    return (questions as Questions).questions.filter(q => q.day === 1); // CHANGE THIS IF WANT TO TEST DIFFERNT DAY
+    return (questions as Questions).questions.filter(q => q.day === 1); // CHANGE THIS IF WANT TO TEST DIFFERNT DAY indexing starts at 0
   } else if (gameMode === 'Endless') {
     return (questions as Questions).questions; // all of them
+  } else if (gameMode === 'Hard') {
+    return (questions as Questions).questions.filter(q => q.day === 0); // CHANGE THIS IF WANT TO TEST DIFFERNT DAY indexing starts at 0
+  } else if (gameMode === 'Iconic') {
+
   }
-  // Add more modes here
   return [];
 };
 
@@ -80,8 +83,12 @@ const filteredQuestions = getFilteredQuestions();
     : undefined;
 
   // When an answer is submitted, mark correct/incorrect, and prep to play full video
-  const onSubmit = (correct: boolean) => {
+  const onSubmit = (correct: boolean, timeTaken?: number) => {
     correct ? setCorrectAnswers(prev => prev + 1) : setIncorrectAnswers(prev => prev + 1);
+
+    if(timeTaken !== undefined) {
+      setQuestionTimes(times => [...times, timeTaken]);
+    }
     setPlayFullVideo(true);
     setWaitingToAdvance(true);
   };
@@ -182,16 +189,16 @@ const filteredQuestions = getFilteredQuestions();
             quizDate={quizDate}
           />
           {videoSrc && (
-            <QuestionComp
-              question={currentQuestion}
-              videoSrc={videoSrc}
-              videoRef={videoRef}
-              playDisabled={playDisabled}
-              showReplay={showReplay}
-              onReplay={onReplay}
-              onSubmit={onSubmit}
-            />
-          )}
+          <QuestionComp
+            question={currentQuestion}
+            videoSrc={videoSrc}
+            videoRef={videoRef}
+            playDisabled={playDisabled}
+            showReplay={showReplay}
+            onReplay={onReplay}
+            onSubmit={onSubmit}
+            gameMode={gameMode}
+        />)}
 
           {waitingToAdvance && (
             <button

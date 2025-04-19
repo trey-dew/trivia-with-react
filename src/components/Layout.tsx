@@ -3,13 +3,37 @@ import { FaBars } from 'react-icons/fa';
 import styles from './Layout.module.scss'; // create this or reuse existing
 import classNames from 'classnames';
 import { useState } from 'react';
+import { useAtom } from 'jotai';
+import { gameModeAtom,homePageVisibleAtom,quizStartedAtom } from '../atoms';
+
 
 const Layout = () => {
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
     const navigate = useNavigate();
 
+    
+    const [, setDifficulty] = useAtom(gameModeAtom);
+    const [, setShowHomePage] = useAtom(homePageVisibleAtom);
+    const [, setStartQuiz] = useAtom(quizStartedAtom);
+
+    const start = (selectedDifficulty: string) => {
+        setDifficulty(selectedDifficulty);
+        setShowHomePage(false);
+        setStartQuiz(true);
+    
+        if (selectedDifficulty === 'Daily') {
+          navigate('/daily');
+        } else if (selectedDifficulty === 'Endless') {
+          navigate('/endless');
+        } else if(selectedDifficulty === 'Hard'){
+            navigate('/hard');
+        }
+    }
+
     const toggleSidebar = () => {
         setSidebarCollapsed(!sidebarCollapsed);
+
+
     };
 
     return (
@@ -23,10 +47,11 @@ const Layout = () => {
                 {!sidebarCollapsed && (
                     <>
                         <button onClick={() => navigate('/')}>Home</button>
-                        <button onClick={() => navigate('/daily')}>Archive</button>
+                        <button onClick={() => start('Daily')}>Daily</button>
+                        <button onClick={() => navigate('/results')}>Archive</button>
                         <button onClick={() => navigate('/howtoplay')}>How to Play</button>
-                        <button onClick={() => navigate('/endless')}>Endless</button>
-                        <button onClick={() => navigate('/results')}>Hard</button>
+                        <button onClick={() => start('Endless')}>Endless</button>
+                        <button onClick={() => start('Hard')}>Hard</button>
                         <button onClick={() => navigate('/results')}>Contact</button>
                     </>
                 )}
@@ -39,5 +64,6 @@ const Layout = () => {
         </div>
     );
 };
+
 
 export default Layout;

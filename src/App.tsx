@@ -18,6 +18,7 @@ function App() {
                     <Route path="results" element={<Resultspage />} />
                     <Route path="howtoplay" element={<HowToPlay />} />
                     <Route path="endless" element={<Quizpage />} />
+                    <Route path="hard" element={<Quizpage />} />
                 </Route>
             </Routes>
         </Router>
