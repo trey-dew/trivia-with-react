@@ -80,3 +80,41 @@
     background-color: #0056b3;
   }
   
+  .container {
+    position: relative;
+    max-width: 400px;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+  }
+  
+  .suggestions {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 10;
+  }
+  
+  .suggestions li {
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+  .suggestions li:hover {
+    background-color: #eee;
+  }
+  
+  .submitBtn {
+    margin-top: 8px;
+    padding: 8px 16px;
+  }
+  

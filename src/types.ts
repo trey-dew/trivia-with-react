@@ -10,4 +10,5 @@ export type Question = {
     start: number;
     pause: number;
     day: number;
+    answer: string;
 }

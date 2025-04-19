@@ -7,7 +7,8 @@
             "video": "road_work_ahead.mp4",
             "start": 0,
             "pause": 2.5,
-            "day": 0
+            "day": 0,
+            "answer": "Uh, Yeah. I sure hope it does"
         },
         {
             "question": "What does this guy say to Richard?",
@@ -16,7 +17,8 @@
             "video": "what_the_fuck_richard.mp4",
             "start": 0,
             "pause": 3,
-            "day": 0
+            "day": 0,
+            "answer": "What the fuck, Richard"
         },
         {
             "question": "What does this del taco sign advertise?",
@@ -25,7 +27,8 @@
             "video": "fresh_avocado_vine.mp4",
             "start": 0,
             "pause": 2,
-            "day": 0
+            "day": 0,
+            "answer": "fre sha voc a do"
         },
         {
             "question": "What news is this gentleman on the phone going to receieve",
@@ -34,7 +37,8 @@
             "video": "so_no_head.mp4",
             "start": 0,
             "pause": 2,
-            "day": 0
+            "day": 0,
+            "answer": "So no head?"
         },
         {
             "question": "How does michael re-act to this question",
@@ -43,7 +47,8 @@
             "video": "michael_with_a_b.mp4",
             "start": 0,
             "pause": 5.55,
-            "day": 0
+            "day": 0,
+            "answer": "theres a bee?"
         },
         {
             "question": "How does this guy react to being punched",
@@ -52,7 +57,8 @@
             "video": "cant_beleive_this.mp4",
             "start": 0,
             "pause": 5.35,
-            "day": 1
+            "day": 1,
+            "answer": "I can't beleive you've done this"
         },
         {
             "question": "What does this person want to be?",
@@ -61,7 +67,8 @@
             "video": "i_dont_need_a_degree.mp4",
             "start": 0,
             "pause": 3,
-            "day": 1
+            "day": 1,
+            "answer": "A clothing Hanger"
         },
         {
             "question": "What does this man want to be?",
@@ -70,7 +77,8 @@
             "video": "i_wanna_be_a cowboy_baby_vine.mp4",
             "start": 0,
             "pause": 1,
-            "day": 1
+            "day": 1,
+            "answer": "A Cowboy Baby"
         },
         {
             "question": "How does this man express his admiration?",
@@ -79,7 +87,8 @@
             "video": "x_games_mode.mp4",
             "start": 0,
             "pause": 4,
-            "day": 1
+            "day": 1,
+            "answer": "Oh he on x-games mode"
         },
         {
             "question": "What the rest of this song about the cat?",
@@ -87,8 +96,9 @@
             "correctAnswerIdx": 3,
             "video": "i_want_to_see_my.mp4",
             "start": 0,
-            "pause": 4,
-            "day": 1
+            "pause": 2,
+            "day": 1,
+            "answer": "Here he comes"
         }
         
     ]

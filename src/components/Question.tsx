@@ -3,6 +3,7 @@ import { Question } from '../types';
 import Answers from './Answers';
 import Question_module from './Question.module.scss';
 import { Play, Pause, RotateCcw } from 'lucide-react';
+import AnswerList from '../Answers.json'
 import myVideo from '../assets/videos/road_work_ahead.mp4';
 
 type Props = {
@@ -14,15 +15,18 @@ type Props = {
     onReplay: () => void;
     onSubmit: (correct: boolean, timeTaken?: number) => void;
     gameMode: string;
+    correctAnsers: string[]
 };
 
 function QuestionComp({question, videoSrc, videoRef, playDisabled,showReplay, onReplay, onSubmit, gameMode,}: Props) {
   const [input, setInput] = useState('');
   const [startTime, setStartTime] = useState(Date.now());
+  const [suggestions, setSuggestions] = useState<string[]>([]);
 
   useEffect(() => {
     setStartTime(Date.now());
     setInput('');
+    setSuggestions([]);
   }, [question]);
 
   const handleHardSubmit = () => {
@@ -32,6 +36,25 @@ function QuestionComp({question, videoSrc, videoRef, playDisabled,showReplay, on
     );
     const timeTaken = (Date.now() - startTime) / 1000;
     onSubmit(isCorrect, timeTaken);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setInput(value);
+
+    if (value.length > 0) {
+      const matches = (AnswerList.answers as string[]).filter((a) =>
+        a.toLowerCase().includes(value.toLowerCase())
+      );
+      setSuggestions(matches.slice(0, 5));
+    } else {
+      setSuggestions([]);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setInput(suggestion);
+    setSuggestions([]);
   };
 
   return (
@@ -77,10 +100,25 @@ function QuestionComp({question, videoSrc, videoRef, playDisabled,showReplay, on
           <input
             type="text"
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={handleInputChange}
             placeholder="Type your answer..."
             className={Question_module.hardInput}
           />
+          {suggestions.length > 0 && (
+            <ul className={Question_module.suggestionList}>
+              {
+                suggestions.map((suggestion, index)=> (
+                  <li
+                  key={index}
+                  onClick={() => handleSuggestionClick(suggestion)}
+                  className={Question_module.suggestionItem}
+                  >
+                    {suggestion}
+                  </li>
+                ))
+              }
+            </ul>
+          )}
           <button
             onClick={handleHardSubmit}
             className={Question_module.submitButton}

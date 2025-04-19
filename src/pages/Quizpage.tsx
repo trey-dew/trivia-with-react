@@ -5,6 +5,7 @@ import questions from '../questions.json';
 import { Questions } from '../types';
 import QuestionComp from '../components/Question';
 import StatBar from '../components/statbar';
+import AnswerList from '../Answers.json'
 
 import {
   currentQuestionIdxAtom,
@@ -198,6 +199,7 @@ const filteredQuestions = getFilteredQuestions();
             onReplay={onReplay}
             onSubmit={onSubmit}
             gameMode={gameMode}
+            correctAnsers={AnswerList.answers}
         />)}
 
           {waitingToAdvance && (
