@@ -1,21 +1,9 @@
-// .next-btn {
-//     margin: 2% 10px 0px;
-//     align-self: center;
-//     padding: 10% 0%;
-//     position: relative;
-//     top: 5%;
-//     bottom: 25%;
-//     left: 25%;
-//     right: 25%;
-//   }
-
-  /* Add this to App.module.scss or global.css */
 
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow-x: hidden; /* hides horizontal scroll */
+  overflow-x: visible; /* hides horizontal scroll */
   box-sizing: border-box;
 }
 *, *::before, *::after {
@@ -31,8 +19,8 @@ body {
   display: flex;
   flex-direction: column;
   height: auto;
-  overflow-x: hidden;
-  overflow-y: hidden; /* often necessary */
+  overflow-x: visible;
+  overflow-y: visible; /* often necessary */
 }
   
   .sidebar {
@@ -76,7 +64,7 @@ body {
   .mainContent {
     flex-grow: 0;
     padding: 2rem;
-    overflow-y: auto;
+    overflow-y: visible;
     margin-bottom: 0 !important;
   }
   

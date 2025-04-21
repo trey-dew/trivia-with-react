@@ -22,19 +22,34 @@ function QuestionComp({question, videoSrc, videoRef, playDisabled,showReplay, on
   const [input, setInput] = useState('');
   const [startTime, setStartTime] = useState(Date.now());
   const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const timerRef = useRef<number | null>(null);
+
+
 
   useEffect(() => {
     setStartTime(Date.now());
     setInput('');
     setSuggestions([]);
+    setElapsedTime(0);
+
+    if (timerRef.current) clearInterval(timerRef.current); // clear any existing timer
+
+      timerRef.current = setInterval(() => {
+      setElapsedTime((prev) => prev + 0.1);
+    }, 100);
+  
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
   }, [question]);
 
   const handleHardSubmit = () => {
     const normalizedInput = input.trim().toLowerCase();
-    const isCorrect = question.options.some(
-      (answer) => answer.toLowerCase() === normalizedInput
-    );
+    const isCorrect = question.answer.toLowerCase() === normalizedInput;
     const timeTaken = (Date.now() - startTime) / 1000;
+
+    if(timerRef.current) clearInterval(timerRef.current);
     onSubmit(isCorrect, timeTaken);
   };
 
@@ -97,6 +112,9 @@ function QuestionComp({question, videoSrc, videoRef, playDisabled,showReplay, on
 
       {gameMode === 'Hard' ? (
         <div className={Question_module.hardInputWrapper}>
+           <div className={Question_module.timeTaken}>
+              Time: {elapsedTime.toFixed(1)} seconds
+            </div>
           <input
             type="text"
             value={input}
@@ -105,19 +123,18 @@ function QuestionComp({question, videoSrc, videoRef, playDisabled,showReplay, on
             className={Question_module.hardInput}
           />
           {suggestions.length > 0 && (
-            <ul className={Question_module.suggestionList}>
-              {
-                suggestions.map((suggestion, index)=> (
-                  <li
-                  key={index}
-                  onClick={() => handleSuggestionClick(suggestion)}
-                  className={Question_module.suggestionItem}
-                  >
-                    {suggestion}
-                  </li>
-                ))
-              }
-            </ul>
+            <div className={`${Question_module.suggestionList} ${Question_module.suggestionVisible}`}>
+              {suggestions.map((suggestion, index) => (
+                <button
+                 key={index}
+                type="button"
+                onClick={() => handleSuggestionClick(suggestion)}
+                className={Question_module.suggestionButton}
+              >
+                {suggestion}
+              </button>
+            ))}
+          </div>
           )}
           <button
             onClick={handleHardSubmit}
