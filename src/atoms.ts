@@ -1,4 +1,5 @@
 import { atom } from 'jotai';
+import {Question} from './types'
 
 export const currentQuestionIdxAtom = atom(0);
 export const correctAnswersAtom = atom(0);
@@ -17,3 +18,10 @@ export const resetQuizAtom = atom(null, (get, set) => {
     set(quizStartedAtom, false);
   });
   
+type QuizResult = {
+  question: Question;
+  wasCorrect: boolean;
+  timeTaken?: number;
+};
+
+export const resultsAtom = atom<QuizResult[]>([]);

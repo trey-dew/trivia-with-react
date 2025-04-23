@@ -154,6 +154,41 @@
     text-align: center;
   }
   
+  .correct {
+    animation: correctPop 0.4s ease;
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  @keyframes correctPop {
+    0% {
+      transform: scale(1);
+      box-shadow: 0 0 0 rgba(40, 167, 69, 0);
+    }
+    50% {
+      transform: scale(1.05);
+      box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
+    }
+    100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 rgba(40, 167, 69, 0);
+    }
+  }
+  
+  .incorrect {
+    animation: incorrectShake 0.3s ease;
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+  
+  @keyframes incorrectShake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+  }
+  
   
   .suggestionButton {
     background-color: #f1f1f1;
@@ -169,4 +204,10 @@
   .suggestionButton:hover {
     background-color: #e0e0e0;
   }
+
+  .highlighted {
+    background-color: #d6d6d6;
+    color: black;
+  }
+  
   

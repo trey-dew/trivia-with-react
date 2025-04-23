@@ -5,6 +5,8 @@ import Question_module from './Question.module.scss';
 import { Play, Pause, RotateCcw } from 'lucide-react';
 import AnswerList from '../Answers.json'
 import myVideo from '../assets/videos/road_work_ahead.mp4';
+import { useAtom } from 'jotai';
+import { resultsAtom } from '../atoms';
 
 type Props = {
     question: Question;
@@ -23,8 +25,12 @@ function QuestionComp({question, videoSrc, videoRef, playDisabled,showReplay, on
   const [startTime, setStartTime] = useState(Date.now());
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [elapsedTime, setElapsedTime] = useState(0);
+  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+  const [submitted, setSubmitted] = useState(false);
   const timerRef = useRef<number | null>(null);
-
+  const [buttonPressed, setButtonPressed] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const [results, setResults] = useAtom(resultsAtom);
 
 
   useEffect(() => {
@@ -32,6 +38,9 @@ function QuestionComp({question, videoSrc, videoRef, playDisabled,showReplay, on
     setInput('');
     setSuggestions([]);
     setElapsedTime(0);
+    setSubmitted(false)
+    setIsCorrect(null)
+    setButtonPressed(false);
 
     if (timerRef.current) clearInterval(timerRef.current); // clear any existing timer
 
@@ -49,6 +58,17 @@ function QuestionComp({question, videoSrc, videoRef, playDisabled,showReplay, on
     const isCorrect = question.answer.toLowerCase() === normalizedInput;
     const timeTaken = (Date.now() - startTime) / 1000;
 
+    setResults((prev) => [
+      ...prev,
+      {
+        question,
+        wasCorrect: isCorrect,
+        timeTaken,
+      },
+    ]);
+
+    setIsCorrect(isCorrect);
+    setSubmitted(true);
     if(timerRef.current) clearInterval(timerRef.current);
     onSubmit(isCorrect, timeTaken);
   };
@@ -115,33 +135,64 @@ function QuestionComp({question, videoSrc, videoRef, playDisabled,showReplay, on
            <div className={Question_module.timeTaken}>
               Time: {elapsedTime.toFixed(1)} seconds
             </div>
-          <input
-            type="text"
-            value={input}
-            onChange={handleInputChange}
-            placeholder="Type your answer..."
-            className={Question_module.hardInput}
-          />
+            <input
+              type="text"
+              value={input}
+              onChange={handleInputChange}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  if (highlightedIndex >= 0 && suggestions[highlightedIndex]) {
+                    handleSuggestionClick(suggestions[highlightedIndex]);
+                  } else if (!submitted) {
+                    handleHardSubmit();
+                    setButtonPressed(true);
+                  }
+                } else if (e.key === 'ArrowDown') {
+                  e.preventDefault();
+                  setHighlightedIndex((prev) =>
+                    prev < suggestions.length - 1 ? prev + 1 : 0
+                  );
+                } else if (e.key === 'ArrowUp') {
+                  e.preventDefault();
+                  setHighlightedIndex((prev) =>
+                    prev > 0 ? prev - 1 : suggestions.length - 1
+                  );
+                }
+              }}
+              placeholder="Type your answer..."
+              className={`${Question_module.hardInput} ${
+                submitted ? (isCorrect ? Question_module.correct : Question_module.incorrect) : ''
+              }`}
+            />
+
           {suggestions.length > 0 && (
             <div className={`${Question_module.suggestionList} ${Question_module.suggestionVisible}`}>
-              {suggestions.map((suggestion, index) => (
-                <button
-                 key={index}
+             {suggestions.map((suggestion, index) => (
+              <button
+                key={index}
                 type="button"
                 onClick={() => handleSuggestionClick(suggestion)}
-                className={Question_module.suggestionButton}
+                className={`${Question_module.suggestionButton} ${
+                  index === highlightedIndex ? Question_module.highlighted : ''
+                }`}
               >
                 {suggestion}
               </button>
             ))}
+
           </div>
           )}
-          <button
-            onClick={handleHardSubmit}
-            className={Question_module.submitButton}
-          >
-            Submit
-          </button>
+          {!buttonPressed && (
+            <button
+              onClick= {() =>{
+                handleHardSubmit();
+                setButtonPressed(true);
+              }}
+              className={Question_module.submitButton}
+            >
+              Submit
+            </button>
+          )}
         </div>
       ) : (
         <Answers
