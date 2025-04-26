@@ -8,7 +8,8 @@
             "start": 0,
             "pause": 2.5,
             "day": 0,
-            "answer": "Uh, Yeah. I sure hope it does"
+            "answer": "Uh, Yeah. I sure hope it does",
+            "isClean": true
         },
         {
             "question": "What does this guy say to Richard?",
@@ -18,7 +19,8 @@
             "start": 0,
             "pause": 3,
             "day": 0,
-            "answer": "What the fuck, Richard"
+            "answer": "What the fuck, Richard",
+            "isClean": false
         },
         {
             "question": "What does this del taco sign advertise?",
@@ -28,7 +30,8 @@
             "start": 0,
             "pause": 2,
             "day": 0,
-            "answer": "fre sha voc a do"
+            "answer": "fre sha voc a do",
+            "isClean": true
         },
         {
             "question": "What news is this gentleman on the phone going to receieve",
@@ -38,7 +41,8 @@
             "start": 0,
             "pause": 2,
             "day": 0,
-            "answer": "So no head?"
+            "answer": "So no head?",
+            "isClean": true
         },
         {
             "question": "How does michael re-act to this question",
@@ -48,7 +52,8 @@
             "start": 0,
             "pause": 5.55,
             "day": 0,
-            "answer": "theres a bee?"
+            "answer": "theres a bee?",
+            "isClean": true
         },
         {
             "question": "How does this guy react to being punched",
@@ -58,7 +63,8 @@
             "start": 0,
             "pause": 5.35,
             "day": 1,
-            "answer": "I can't beleive you've done this"
+            "answer": "I can't beleive you've done this",
+            "isClean": false
         },
         {
             "question": "What does this person want to be?",
@@ -68,7 +74,8 @@
             "start": 0,
             "pause": 3,
             "day": 1,
-            "answer": "A clothing Hanger"
+            "answer": "A clothing Hanger",
+            "isClean": true
         },
         {
             "question": "What does this man want to be?",
@@ -78,7 +85,8 @@
             "start": 0,
             "pause": 1,
             "day": 1,
-            "answer": "A Cowboy Baby"
+            "answer": "A Cowboy Baby",
+            "isClean": true
         },
         {
             "question": "How does this man express his admiration?",
@@ -88,7 +96,8 @@
             "start": 0,
             "pause": 4,
             "day": 1,
-            "answer": "Oh he on x-games mode"
+            "answer": "Oh he on x-games mode",
+            "isClean": true
         },
         {
             "question": "What the rest of this song about the cat?",
@@ -98,7 +107,8 @@
             "start": 0,
             "pause": 2,
             "day": 1,
-            "answer": "Here he comes"
+            "answer": "Here he comes",
+            "isClean": true
         }
         
     ]

@@ -28,12 +28,16 @@ function Reset() {
 
       const calculateFinalScore = (results: any[]) => {
         return results.reduce((total, res) => {
-          if (res.wasCorrect && res.timeTaken !== undefined) {
-            const timePenalty = Math.trunc(Math.max(0, res.timeTaken - 6) * 110);
-            const score = Math.max(0, 1000 - timePenalty);
-            return total + score;
-          }
-          return Math.trunc(total);
+        if (res.wasCorrect ) {
+            if(res.timeTaken !== undefined) {
+                const timePenalty = Math.trunc(Math.max(0, res.timeTaken - 6) * 110);
+                const score = Math.max(100, 1000 - timePenalty);
+                return total + score;
+            } else {
+                return total + 1000;
+            }
+        }
+        return Math.trunc(total);
         }, 0);
       };
       
@@ -57,7 +61,15 @@ function Reset() {
                     {res.timeTaken !== undefined && (
                     <p><strong>Score:</strong> {
                         res.wasCorrect
-                            ? Math.trunc(Math.max(0, 1000 - Math.max(0, res.timeTaken - 6) * 110))
+                            ? Math.trunc(Math.max(100, 1000 - Math.max(0, res.timeTaken - 6) * 110))
+                            : 0
+                    }
+                    </p>
+                    )}
+                    {res.timeTaken === undefined && (
+                    <p><strong>Score:</strong> {
+                        res.wasCorrect
+                            ? 1000
                             : 0
                     }
                     </p>

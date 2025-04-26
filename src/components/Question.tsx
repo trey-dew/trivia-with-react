@@ -4,7 +4,6 @@ import Answers from './Answers';
 import Question_module from './Question.module.scss';
 import { Play, Pause, RotateCcw } from 'lucide-react';
 import AnswerList from '../Answers.json'
-import myVideo from '../assets/videos/road_work_ahead.mp4';
 import { useAtom } from 'jotai';
 import { resultsAtom } from '../atoms';
 
@@ -31,6 +30,8 @@ function QuestionComp({question, videoSrc, videoRef, playDisabled,showReplay, on
   const [buttonPressed, setButtonPressed] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [results, setResults] = useAtom(resultsAtom);
+  const inputRef = useRef<HTMLInputElement>(null);
+
 
 
   useEffect(() => {
@@ -52,6 +53,13 @@ function QuestionComp({question, videoSrc, videoRef, playDisabled,showReplay, on
       if (timerRef.current) clearInterval(timerRef.current);
     };
   }, [question]);
+
+  useEffect(() => {
+    if (gameMode === 'Hard' && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [gameMode, question]);
+  
 
   const handleHardSubmit = () => {
     const normalizedInput = input.trim().toLowerCase();
@@ -136,6 +144,7 @@ function QuestionComp({question, videoSrc, videoRef, playDisabled,showReplay, on
               Time: {elapsedTime.toFixed(1)} seconds
             </div>
             <input
+              ref={inputRef}
               type="text"
               value={input}
               onChange={handleInputChange}
@@ -195,12 +204,20 @@ function QuestionComp({question, videoSrc, videoRef, playDisabled,showReplay, on
           )}
         </div>
       ) : (
-        <Answers
-          question={question}
-          onSubmit={(correct) => {
-            onSubmit(correct);
-          }}
-        />
+          <Answers
+            question={question}
+            onSubmit={(correct, answeredQuestion) => {
+              setResults((prev) => [
+                ...prev,
+                {
+                  question: answeredQuestion,
+                  wasCorrect: correct,
+                  timeTaken: undefined, // No timer in this mode
+                },
+              ]);
+              onSubmit(correct);
+            }}
+          />    
       )}
     </div>
   );

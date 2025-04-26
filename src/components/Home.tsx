@@ -17,10 +17,10 @@ function Home({ onPress }: Props) {
           Daily
         </button>
         <button
-          onClick={() => onPress('Iconic')}
+          onClick={() => onPress('Clean')}
           className={Home_module.optionButton}
         >
-          Iconic
+          Clean Mode
         </button>
         <button
           onClick={() => onPress('Hard')}
@@ -29,13 +29,20 @@ function Home({ onPress }: Props) {
           Hard
         </button>
       </div>
-
-      <button
-        onClick={() => onPress('Endless')}
-        className={Home_module.startButton}
-      >
-        Endless Mode
-      </button>
+      <div className={Home_module.inlineButtons}>
+        <button
+          onClick={() => onPress('Endless')}
+          className={Home_module.optionButton}
+        >
+          Endless Mode
+        </button>
+        <button
+          onClick={() => onPress('Archive')}
+          className={Home_module.optionButton}
+        >
+          Archive
+        </button>
+      </div>
     </div>
   );
 }

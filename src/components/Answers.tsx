@@ -5,8 +5,9 @@ import Answers_module from './Answers.module.scss';
 
 type Props = {
     question: Question;
-    onSubmit: (correct: boolean) => void;
-};
+    onSubmit: (correct: boolean, question: Question) => void;
+  };
+  
 
 function Answers(props: Props) {
     const [showAnswer, setShowAnswer] = useState(false);
@@ -17,7 +18,9 @@ function Answers(props: Props) {
 
     const onPress = (idx: number) => {
         setShowAnswer(true);
-        props.onSubmit(props.question.correctAnswerIdx === idx);
+        const isCorrect = props.question.correctAnswerIdx === idx;
+        props.onSubmit(isCorrect, props.question);
+
     };
 
     return (

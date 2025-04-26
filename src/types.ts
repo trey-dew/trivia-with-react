@@ -11,4 +11,5 @@ export type Question = {
     pause: number;
     day: number;
     answer: string;
+    isClean: boolean;
 }

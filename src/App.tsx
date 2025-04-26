@@ -4,6 +4,8 @@ import Quizpage from './pages/Quizpage';
 import Resultspage from './pages/Resultspage';
 import Layout from './components/Layout'
 import HowToPlay from './pages/HowToPlay';
+import Contact from './pages/ContactPage';
+import Archive from './pages/ArchivePage';
 
 // Preload all video files in the assets folder
 const videoMap = import.meta.glob('./assets/videos/*.mp4', { eager: true });
@@ -19,6 +21,8 @@ function App() {
                     <Route path="howtoplay" element={<HowToPlay />} />
                     <Route path="endless" element={<Quizpage />} />
                     <Route path="hard" element={<Quizpage />} />
+                    <Route path="contact" element={<Contact />} />
+                    <Route path="archive" element={<Archive />} />
                 </Route>
             </Routes>
         </Router>

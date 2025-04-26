@@ -50,6 +50,8 @@ function Quizpage() {
   const [playFullVideo, setPlayFullVideo] = useState(false);
   const [hasPaused, setHasPaused] = useState(false);
   const [questionTimes, setQuestionTimes] = useState<number[]>([]);
+  const [shouldEndAfterNext, setShouldEndAfterNext] = useState(false);
+
 
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -61,8 +63,8 @@ function Quizpage() {
     return (questions as Questions).questions; // all of them
   } else if (gameMode === 'Hard') {
     return (questions as Questions).questions.filter(q => q.day === 0); // CHANGE THIS IF WANT TO TEST DIFFERNT DAY indexing starts at 0
-  } else if (gameMode === 'Iconic') {
-
+  } else if (gameMode === 'Clean') {
+    return (questions as Questions).questions.filter(q => q.day === 1 && q.isClean); // CHANGE THIS IF WANT TO TEST DIFFERNT DAY indexing starts at 0
   }
   return [];
 };
@@ -85,7 +87,15 @@ const filteredQuestions = getFilteredQuestions();
 
   // When an answer is submitted, mark correct/incorrect, and prep to play full video
   const onSubmit = (correct: boolean, timeTaken?: number) => {
-    correct ? setCorrectAnswers(prev => prev + 1) : setIncorrectAnswers(prev => prev + 1);
+    if (correct) {
+      setCorrectAnswers(prev => prev + 1);
+    } else {
+      setIncorrectAnswers(prev => prev + 1);
+  
+      if (gameMode === 'Endless') {
+          setShouldEndAfterNext(true);
+      }
+    }
 
     if(timeTaken !== undefined) {
       setQuestionTimes(times => [...times, timeTaken]);
@@ -97,10 +107,22 @@ const filteredQuestions = getFilteredQuestions();
   // Advance to next question
   const advance = () => {
     setWaitingToAdvance(false);
-    setCurrentQuestionIdx(prev => prev + 1);
     setPlayFullVideo(false);
     setHasPaused(false);
+  
+    if (shouldEndAfterNext) {
+      navigate('/results', {
+        state: {
+          totalQuestions: filteredQuestions.length,
+          correctAnswers,
+          incorrectAnswers,
+        },
+      });
+    } else {
+      setCurrentQuestionIdx(prev => prev + 1);
+    }
   };
+  
 
   // Replay from start time
   const onReplay = () => {
@@ -201,13 +223,14 @@ const filteredQuestions = getFilteredQuestions();
             gameMode={gameMode}
             correctAnsers={AnswerList.answers}
         />)}
-
           {waitingToAdvance && (
             <button
               onClick={advance}
               className={Classnames(Answer_module.answer, question_module['next-btn'])}
             >
-              Next Question...
+              {currentQuestionIdx === filteredQuestions.length - 1 || shouldEndAfterNext
+                ? 'Show Results'
+                : 'Next Question...'}
             </button>
           )}
         </>
