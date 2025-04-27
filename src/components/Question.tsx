@@ -26,7 +26,7 @@ function QuestionComp({question, videoSrc, videoRef, playDisabled,showReplay, on
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [submitted, setSubmitted] = useState(false);
-  const timerRef = useRef<number | null>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
   const [buttonPressed, setButtonPressed] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [results, setResults] = useAtom(resultsAtom);

@@ -2,6 +2,11 @@ import Answer_module from './Answer.module.scss';
 import Classnames from 'classnames';
 import Reset_module from './Reset.module.scss';
 import { useNavigate } from 'react-router-dom';
+import { db } from '../firebase'; // your firebase.ts should export db
+import { collection, addDoc } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import TestUpload from '../fireStoreTestUpload'; 
+
 
 import { useAtom } from 'jotai';
 import {
@@ -17,13 +22,15 @@ function Reset() {
     const [correctAnswers] = useAtom(correctAnswersAtom);
     const [questionIdx] = useAtom(currentQuestionIdxAtom);
     const [, resetQuiz] = useAtom(resetQuizAtom);
+    const [resultsSent, setResultsSent] = useState(false); 
 
     const navigate = useNavigate();
 
     const handleReset = () => {
-        setResults([])
+        setResults([]);
         resetQuiz(); // clear all global state
         navigate('/'); // go home
+        setResultsSent(false);
       };
 
       const calculateFinalScore = (results: any[]) => {
@@ -41,9 +48,44 @@ function Reset() {
         }, 0);
       };
       
+      const sendResultsToFirestore = async () => {
+        try {
+          const finalScore = calculateFinalScore(results);
+          const percentage = Math.trunc((correctAnswers / questionIdx) * 100);
+          const now = new Date();
+    
+          const resultsWithValidData = results.map((res) => ({
+            ...res,
+            timeTaken: res.timeTaken !== undefined ? res.timeTaken : 0, // Replace undefined timeTaken with 0
+          }));
+
+          await addDoc(collection(db, 'quizResults'), {
+            date: now.toISOString(),
+            correctAnswers,
+            incorrectAnswers: questionIdx - correctAnswers,
+            totalQuestions: questionIdx,
+            finalScore,
+            percentage,
+            results: resultsWithValidData,
+          });
+    
+          console.log('Results saved to Firestore');
+        } catch (error) {
+          console.error('Error saving results:', error);
+        }
+      };
+    
+      useEffect(() => {
+        // Only call sendResultsToFirestore if results haven't been sent already
+        if (!resultsSent) {
+          sendResultsToFirestore();
+          setResultsSent(true); // Mark as sent
+        }
+      }, [resultsSent]);
 
     return (
         <div className={Reset_module['end-screen']}>
+            
             <h1 className={Reset_module['reset-text']}>
                 You scored: {Math.trunc(correctAnswers / questionIdx * 100)}%
             </h1>
