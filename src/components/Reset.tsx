@@ -4,9 +4,8 @@ import Reset_module from './Reset.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../firebase'; // your firebase.ts should export db
 import { collection, addDoc } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import TestUpload from '../fireStoreTestUpload'; 
-
 
 import { useAtom } from 'jotai';
 import {
@@ -22,7 +21,7 @@ function Reset() {
     const [correctAnswers] = useAtom(correctAnswersAtom);
     const [questionIdx] = useAtom(currentQuestionIdxAtom);
     const [, resetQuiz] = useAtom(resetQuizAtom);
-    const [resultsSent, setResultsSent] = useState(false); 
+    const resultsSentRef = useRef(false);  // This will track if results are sent
 
     const navigate = useNavigate();
 
@@ -30,10 +29,10 @@ function Reset() {
         setResults([]);
         resetQuiz(); // clear all global state
         navigate('/'); // go home
-        setResultsSent(false);
-      };
+        resultsSentRef.current = false;  // Reset the reference on reset
+    };
 
-      const calculateFinalScore = (results: any[]) => {
+    const calculateFinalScore = (results: any[]) => {
         return results.reduce((total, res) => {
         if (res.wasCorrect ) {
             if(res.timeTaken !== undefined) {
@@ -46,42 +45,47 @@ function Reset() {
         }
         return Math.trunc(total);
         }, 0);
-      };
-      
-      const sendResultsToFirestore = async () => {
-        try {
-          const finalScore = calculateFinalScore(results);
-          const percentage = Math.trunc((correctAnswers / questionIdx) * 100);
-          const now = new Date();
+    };
     
-          const resultsWithValidData = results.map((res) => ({
-            ...res,
-            timeTaken: res.timeTaken !== undefined ? res.timeTaken : 0, // Replace undefined timeTaken with 0
-          }));
+    const sendResultsToFirestore = async () => {
 
-          await addDoc(collection(db, 'quizResults'), {
-            date: now.toISOString(),
-            correctAnswers,
-            incorrectAnswers: questionIdx - correctAnswers,
-            totalQuestions: questionIdx,
-            finalScore,
-            percentage,
-            results: resultsWithValidData,
-          });
-    
-          console.log('Results saved to Firestore');
+        if (results.length === 0) {
+          console.log('No results to send.');
+          return;  // Avoid sending empty results
+        }
+        try {
+            const finalScore = calculateFinalScore(results);
+            const percentage = Math.trunc((correctAnswers / questionIdx) * 100);
+            const now = new Date();
+
+            const resultsWithValidData = results.map((res) => ({
+                ...res,
+                timeTaken: res.timeTaken !== undefined ? res.timeTaken : 0, // Replace undefined timeTaken with 0
+            }));
+
+            await addDoc(collection(db, 'quizResults'), {
+                date: now.toISOString(),
+                correctAnswers,
+                incorrectAnswers: questionIdx - correctAnswers,
+                totalQuestions: questionIdx,
+                finalScore,
+                percentage,
+                results: resultsWithValidData,
+            });
+
+            console.log('Results saved to Firestore');
         } catch (error) {
-          console.error('Error saving results:', error);
+            console.error('Error saving results:', error);
         }
-      };
-    
-      useEffect(() => {
+    };
+
+    useEffect(() => {
         // Only call sendResultsToFirestore if results haven't been sent already
-        if (!resultsSent) {
-          sendResultsToFirestore();
-          setResultsSent(true); // Mark as sent
+        if (!resultsSentRef.current) {
+            resultsSentRef.current = true; // Mark as sent
+            sendResultsToFirestore();
         }
-      }, [resultsSent]);
+    }, [results]);  // Dependency array to ensure it only runs when results change
 
     return (
         <div className={Reset_module['end-screen']}>
@@ -105,16 +109,14 @@ function Reset() {
                         res.wasCorrect
                             ? Math.trunc(Math.max(100, 1000 - Math.max(0, res.timeTaken - 6) * 110))
                             : 0
-                    }
-                    </p>
+                    }</p>
                     )}
                     {res.timeTaken === undefined && (
                     <p><strong>Score:</strong> {
                         res.wasCorrect
                             ? 1000
                             : 0
-                    }
-                    </p>
+                    }</p>
                     )}
                     <hr />
                 </div>
