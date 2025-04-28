@@ -3,8 +3,8 @@ import Classnames from 'classnames';
 import Reset_module from './Reset.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../firebase'; // your firebase.ts should export db
-import { collection, addDoc } from 'firebase/firestore';
-import { useEffect, useRef } from 'react';
+import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
+import { useEffect, useRef, useState } from 'react';
 import TestUpload from '../fireStoreTestUpload'; 
 
 import { useAtom } from 'jotai';
@@ -21,9 +21,64 @@ function Reset() {
     const [correctAnswers] = useAtom(correctAnswersAtom);
     const [questionIdx] = useAtom(currentQuestionIdxAtom);
     const [, resetQuiz] = useAtom(resetQuizAtom);
-    const resultsSentRef = useRef(false);  // This will track if results are sent
+    const resultsSentRef = useRef(false);  
+    const [averageCorrectAnswers, setAverageCorrectAnswers] = useState<number | null>(null);
+    const [averagePercentage, setAveragePercentage] = useState<number | null>(null);
+
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+      // Define an async function to fetch today's quiz results and calculate averages
+      const fetchAverageStats = async () => {
+          try {
+              // Step 1: Get today's date string in "YYYY-MM-DD" format
+              const todayString = new Date().toISOString().split('T')[0];
+  
+              // Step 2: Create a query to Firestore to get all quizResults where 'dayString' == today
+              const q = query(
+                  collection(db, 'quizResults'),        // Target the 'quizResults' collection
+                  where('dayString', '==', todayString)  // Only entries from today
+              );
+  
+              // Step 3: Run the query
+              const querySnapshot = await getDocs(q);
+  
+              // Step 4: Initialize counters
+              let totalCorrect = 0;   // Total number of correct answers across all users today
+              let totalPercentage = 0; // Total percentage across all users today
+              let count = 0;          // How many quiz submissions there are
+  
+              // Step 5: Loop through each document returned
+              querySnapshot.forEach((doc) => {
+                  const data = doc.data();
+  
+                  // Only include entries that have the expected fields
+                  if (typeof data.correctAnswers === 'number' && typeof data.percentage === 'number') {
+                      totalCorrect += data.correctAnswers;
+                      totalPercentage += data.percentage;
+                      count += 1;
+                  }
+              });
+  
+              // Step 6: Calculate the averages and update local state
+              if (count > 0) {
+                  setAverageCorrectAnswers(totalCorrect / count);  // Average correct answers
+                  setAveragePercentage(totalPercentage / count);   // Average percentage correct
+              } else {
+                  setAverageCorrectAnswers(null);  // No data for today
+                  setAveragePercentage(null);
+              }
+          } catch (error) {
+              // If something goes wrong, log the error for debugging
+              console.error('Error fetching average stats:', error);
+          }
+      };
+  
+      // Step 7: Immediately call the function when component mounts
+      fetchAverageStats();
+  }, []);
+  
 
     const handleReset = () => {
         setResults([]);
@@ -57,6 +112,7 @@ function Reset() {
             const finalScore = calculateFinalScore(results);
             const percentage = Math.trunc((correctAnswers / questionIdx) * 100);
             const now = new Date();
+            const dayString = now.toISOString().split('T')[0]; // Get YYYY-MM-DD
 
             const resultsWithValidData = results.map((res) => ({
                 ...res,
@@ -65,6 +121,7 @@ function Reset() {
 
             await addDoc(collection(db, 'quizResults'), {
                 date: now.toISOString(),
+                dayString,
                 correctAnswers,
                 incorrectAnswers: questionIdx - correctAnswers,
                 totalQuestions: questionIdx,
@@ -89,13 +146,19 @@ function Reset() {
 
     return (
         <div className={Reset_module['end-screen']}>
-            
-            <h1 className={Reset_module['reset-text']}>
-                You scored: {Math.trunc(correctAnswers / questionIdx * 100)}%
-            </h1>
-            <h2 className={Reset_module['reset-text']}>
-               {calculateFinalScore(results)} / 5000
-            </h2>
+            {averageCorrectAnswers !== null && averagePercentage !== null ? (
+              <div>
+                <h1 className={Reset_module['reset-text']}>
+                    You scored: {Math.trunc(correctAnswers / questionIdx * 100)}% The average was: {Math.trunc(averagePercentage)}%
+                </h1>
+                <h2 className={Reset_module['reset-text']}>
+                  {calculateFinalScore(results)} / 5000 Average was: {averageCorrectAnswers * 1000}
+                </h2>
+              </div>
+              ) : (
+                <h2>
+                  No data </h2>
+            )}
             <h2>Results...</h2>
             {results.map((res,idx) => (
                 <div key={idx}>
