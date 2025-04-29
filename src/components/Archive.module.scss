@@ -1,0 +1,126 @@
+/* Archive.module.scss */
+
+.calendarContainer {
+    max-width: 750px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .calendarHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  
+    h2 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+      margin: 0;
+    }
+  }
+  
+  .navButton {
+    background: #f5f5f5;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    color: #333;
+  
+    &:hover {
+      background: #e0e0e0;
+      transform: scale(1.05);
+    }
+  
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+  
+  .calendarGrid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+  }
+  
+  .dayLabel {
+    font-weight: bold;
+    text-align: center;
+    color: #555;
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  .dayCell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50px;
+  }
+  
+  .dayButton {
+    background: #f5f5f5;
+    border: none;
+    width: 100%;
+    height: 100%;
+    min-height: 40px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #333;
+  
+    &:hover {
+      background: #e0e0e0;
+      transform: scale(1.05);
+    }
+  
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+  
+  .today {
+    background: #0077ff;
+    color: white;
+    font-weight: bold;
+  
+    &:hover {
+      background: #005fcc;
+    }
+  }
+  
+  .emptyDay {
+    background: transparent;
+    min-height: 40px;
+  }
+  
+  @media (max-width: 600px) {
+    .calendarContainer {
+      padding: 1rem;
+      margin: 1rem;
+    }
+  
+    .dayButton {
+      min-height: 35px;
+      font-size: 0.9rem;
+    }
+  
+    .dayLabel {
+      padding: 0.5rem;
+      font-size: 0.8rem;
+    }
+  
+    .calendarHeader h2 {
+      font-size: 1.2rem;
+    }
+  }
+  

@@ -1,9 +1,10 @@
-import React from 'react'
+import React from 'react';
+import Archive from '../components/Archive'
 
 function ArchivePage() {
   return (
-    <div>ArchivePage</div>
-  )
+    <Archive />
+  );
 }
 
-export default ArchivePage
+export default ArchivePage;

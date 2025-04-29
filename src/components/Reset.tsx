@@ -14,6 +14,7 @@ import {
   currentQuestionIdxAtom,
   resetQuizAtom,
   resultsAtom,
+  gameModeAtom,
 } from '../atoms';
 
 function Reset() {
@@ -24,7 +25,7 @@ function Reset() {
     const resultsSentRef = useRef(false);  
     const [averageCorrectAnswers, setAverageCorrectAnswers] = useState<number | null>(null);
     const [averagePercentage, setAveragePercentage] = useState<number | null>(null);
-
+    const [gameMode] = useAtom(gameModeAtom);
 
     const navigate = useNavigate();
 
@@ -38,7 +39,8 @@ function Reset() {
               // Step 2: Create a query to Firestore to get all quizResults where 'dayString' == today
               const q = query(
                   collection(db, 'quizResults'),        // Target the 'quizResults' collection
-                  where('dayString', '==', todayString)  // Only entries from today
+                  where('dayString', '==', todayString ),  // Only entries from today
+                  where('gameMode', '==', gameMode)
               );
   
               // Step 3: Run the query
@@ -122,6 +124,7 @@ function Reset() {
             await addDoc(collection(db, 'quizResults'), {
                 date: now.toISOString(),
                 dayString,
+                gameMode,
                 correctAnswers,
                 incorrectAnswers: questionIdx - correctAnswers,
                 totalQuestions: questionIdx,
@@ -149,10 +152,10 @@ function Reset() {
             {averageCorrectAnswers !== null && averagePercentage !== null ? (
               <div>
                 <h1 className={Reset_module['reset-text']}>
-                    You scored: {Math.trunc(correctAnswers / questionIdx * 100)}% The average was: {Math.trunc(averagePercentage)}%
+                    You scored: {Math.trunc(correctAnswers / questionIdx * 100)}% The average was: {Math.trunc(averagePercentage)}% {gameMode}
                 </h1>
                 <h2 className={Reset_module['reset-text']}>
-                  {calculateFinalScore(results)} / 5000 Average was: {averageCorrectAnswers * 1000}
+                  {calculateFinalScore(results)} / {questionIdx}000 Average was: {Math.trunc(averageCorrectAnswers * 1000)}
                 </h2>
               </div>
               ) : (
@@ -162,10 +165,9 @@ function Reset() {
             <h2>Results...</h2>
             {results.map((res,idx) => (
                 <div key={idx}>
-                    <p><strong>Q:</strong> {res.question.question}</p>
-                    <p>{res.wasCorrect ? '✅ Correct' : '❌ Incorrect'}</p>
+                    <p><strong>Q:</strong> {res.question.question} <strong>{res.wasCorrect ? '✅ Correct' : '❌ Incorrect'}</strong></p>
                     {res.timeTaken !== undefined && (
-                    <p><strong>Time Taken:</strong> {res.timeTaken.toFixed(1)}s</p>
+                    <p><strong>Time Taken:</strong> {res.timeTaken.toFixed(1)}s </p>
                     )}
                     {res.timeTaken !== undefined && (
                     <p><strong>Score:</strong> {
