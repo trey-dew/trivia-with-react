@@ -106,8 +106,8 @@ function Reset() {
     
     const sendResultsToFirestore = async () => {
 
-        if (results.length === 0) {
-          console.log('No results to send.');
+        if (results.length === 0 || gameMode === 'Archive') {
+          console.log('No results to send. Or is Archive');
           return;  // Avoid sending empty results
         }
         try {

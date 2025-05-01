@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import questions from '../questions.json';
 import { Questions } from '../types';
@@ -51,8 +51,14 @@ function Quizpage() {
   const [hasPaused, setHasPaused] = useState(false);
   const [questionTimes, setQuestionTimes] = useState<number[]>([]);
   const [shouldEndAfterNext, setShouldEndAfterNext] = useState(false);
+  const { dayId } = useParams();
 
 
+
+  const selectedArchiveDay = gameMode === 'Archive' && /^\d+$/.test(dayId || '')
+  ? parseInt(dayId!)
+  : null;
+  
   const videoRef = useRef<HTMLVideoElement>(null);
 
    // Calculate based on the day based in for daily
@@ -65,7 +71,9 @@ function Quizpage() {
     return (questions as Questions).questions.filter(q => q.day === 0); // CHANGE THIS IF WANT TO TEST DIFFERNT DAY indexing starts at 0
   } else if (gameMode === 'Clean') {
     return (questions as Questions).questions.filter(q => q.day === 1 && q.isClean); // CHANGE THIS IF WANT TO TEST DIFFERNT DAY indexing starts at 0
-  }
+  } else if (gameMode === 'Archive' && selectedArchiveDay !== null) {
+    return (questions as Questions).questions.filter(q => q.day === selectedArchiveDay);
+  }  
   return [];
 };
 
@@ -167,6 +175,16 @@ const filteredQuestions = getFilteredQuestions();
       video.removeEventListener('ended', handleVideoEnded);
     };
   }, [currentQuestionIdx, playFullVideo, isQuizFinished, videoSrc]);
+
+  useEffect(() => {
+    if (gameMode === 'Archive' && selectedArchiveDay !== null) {
+      const questionExists = (questions as Questions).questions.some(q => q.day === selectedArchiveDay);
+      if (!questionExists) {
+        navigate('/'); // or show an error message instead
+      }
+    }
+  }, [selectedArchiveDay, gameMode]);
+  
 
   // Jump to current question's start time whenever video changes
   useEffect(() => {

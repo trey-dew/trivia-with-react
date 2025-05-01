@@ -20,8 +20,18 @@ function Homepage() {
   const start = (selectedDifficulty: string) => {
     setDifficulty(selectedDifficulty);     
     setShowHomePage(false);                
-    setStartQuiz(true);                   
-    navigate('/daily');                    
+    setStartQuiz(true);
+    if(selectedDifficulty ==='Archive') {
+      navigate('/Archive');
+    }
+    else if (selectedDifficulty ==='Hard') {                 
+    navigate('/hard');             
+    }
+    else if  (selectedDifficulty ==='Endless') {                 
+      navigate('/Endless');             
+    }
+    else               
+      navigate('/daily');             
   };
 
   return (

@@ -23,6 +23,7 @@ function App() {
                     <Route path="hard" element={<Quizpage />} />
                     <Route path="contact" element={<Contact />} />
                     <Route path="archive" element={<Archive />} />
+                    <Route path="archive/day/:dayId" element={<Quizpage />} />
                 </Route>
             </Routes>
         </Router>

@@ -109,6 +109,17 @@
             "day": 1,
             "answer": "Here he comes",
             "isClean": true
+        },
+        {
+            "question": "What the rest of this song about the cat?",
+            "options": ["Thats a man","Thats my boy", "He's a cat", "Here he comes"],
+            "correctAnswerIdx": 3,
+            "video": "i_want_to_see_my.mp4",
+            "start": 0,
+            "pause": 2,
+            "day": 2,
+            "answer": "Here he comes",
+            "isClean": true
         }
         
     ]
