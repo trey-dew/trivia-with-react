@@ -64,7 +64,7 @@ function Quizpage() {
    // Calculate based on the day based in for daily
  const getFilteredQuestions = () => {
   if (gameMode === 'Daily') {
-    return (questions as Questions).questions.filter(q => q.day === 1); // CHANGE THIS IF WANT TO TEST DIFFERNT DAY indexing starts at 0
+    return (questions as Questions).questions.filter(q => q.day === 0); // CHANGE THIS IF WANT TO TEST DIFFERNT DAY indexing starts at 0
   } else if (gameMode === 'Endless') {
     return (questions as Questions).questions; // all of them
   } else if (gameMode === 'Hard') {

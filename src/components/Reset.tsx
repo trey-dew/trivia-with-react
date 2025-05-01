@@ -1,7 +1,7 @@
 import Answer_module from './Answer.module.scss';
 import Classnames from 'classnames';
 import Reset_module from './Reset.module.scss';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { db } from '../firebase'; // your firebase.ts should export db
 import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 import { useEffect, useRef, useState } from 'react';
@@ -15,6 +15,7 @@ import {
   resetQuizAtom,
   resultsAtom,
   gameModeAtom,
+  selectedArchiveDayAtom,
 } from '../atoms';
 
 function Reset() {
@@ -26,60 +27,66 @@ function Reset() {
     const [averageCorrectAnswers, setAverageCorrectAnswers] = useState<number | null>(null);
     const [averagePercentage, setAveragePercentage] = useState<number | null>(null);
     const [gameMode] = useAtom(gameModeAtom);
+    const [selectedArchiveDay] = useAtom(selectedArchiveDayAtom);
+    const { dayId } = useParams();
+
+
+    const dayString = selectedArchiveDay !== null
+    ? new Date(2025, 3, 20 + selectedArchiveDay).toISOString().split('T')[0]
+    : new Date().toISOString().split('T')[0];
 
     const navigate = useNavigate();
 
     useEffect(() => {
-      // Define an async function to fetch today's quiz results and calculate averages
-      const fetchAverageStats = async () => {
+        const fetchAverageStats = async () => {
           try {
-              // Step 1: Get today's date string in "YYYY-MM-DD" format
-              const todayString = new Date().toISOString().split('T')[0];
-  
-              // Step 2: Create a query to Firestore to get all quizResults where 'dayString' == today
-              const q = query(
-                  collection(db, 'quizResults'),        // Target the 'quizResults' collection
-                  where('dayString', '==', todayString ),  // Only entries from today
-                  where('gameMode', '==', gameMode)
-              );
-  
-              // Step 3: Run the query
-              const querySnapshot = await getDocs(q);
-  
-              // Step 4: Initialize counters
-              let totalCorrect = 0;   // Total number of correct answers across all users today
-              let totalPercentage = 0; // Total percentage across all users today
-              let count = 0;          // How many quiz submissions there are
-  
-              // Step 5: Loop through each document returned
-              querySnapshot.forEach((doc) => {
-                  const data = doc.data();
-  
-                  // Only include entries that have the expected fields
-                  if (typeof data.correctAnswers === 'number' && typeof data.percentage === 'number') {
-                      totalCorrect += data.correctAnswers;
-                      totalPercentage += data.percentage;
-                      count += 1;
-                  }
-              });
-  
-              // Step 6: Calculate the averages and update local state
-              if (count > 0) {
-                  setAverageCorrectAnswers(totalCorrect / count);  // Average correct answers
-                  setAveragePercentage(totalPercentage / count);   // Average percentage correct
-              } else {
-                  setAverageCorrectAnswers(null);  // No data for today
-                  setAveragePercentage(null);
+            let dayString: string;
+      
+            if (gameMode === 'Archive' && selectedArchiveDay !== null) {
+              // Base date: April 20, 2025 (month is 0-indexed)
+              const baseDate = new Date(2025, 3, 20);
+              baseDate.setDate(baseDate.getDate() + selectedArchiveDay);
+              dayString = baseDate.toISOString().split('T')[0];
+            } else {
+              // Default to today
+              dayString = new Date().toISOString().split('T')[0];
+            }
+            const q = query(
+              collection(db, 'quizResults'),
+              where('dayString', '==', dayString),
+              where('gameMode', '==', gameMode === 'Archive' ? 'Daily' : gameMode)
+            );
+      
+            const querySnapshot = await getDocs(q);
+      
+            let totalCorrect = 0;
+            let totalPercentage = 0;
+            let count = 0;
+      
+            querySnapshot.forEach((doc) => {
+              const data = doc.data();
+              if (typeof data.correctAnswers === 'number' && typeof data.percentage === 'number') {
+                totalCorrect += data.correctAnswers;
+                totalPercentage += data.percentage;
+                count += 1;
               }
+            });
+      
+            if (count > 0) {
+              setAverageCorrectAnswers(totalCorrect / count);
+              setAveragePercentage(totalPercentage / count);
+            } else {
+              setAverageCorrectAnswers(null);
+              setAveragePercentage(null);
+            }
           } catch (error) {
-              // If something goes wrong, log the error for debugging
-              console.error('Error fetching average stats:', error);
+            console.error('Error fetching average stats:', error);
           }
-      };
-  
-      // Step 7: Immediately call the function when component mounts
-      fetchAverageStats();
-  }, []);
+        };
+      
+        fetchAverageStats();
+      }, [gameMode, selectedArchiveDay]);
+      
   
 
     const handleReset = () => {

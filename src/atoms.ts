@@ -7,6 +7,7 @@ export const incorrectAnswersAtom = atom(0);
 export const gameModeAtom = atom('default');
 export const quizStartedAtom = atom(false);
 export const homePageVisibleAtom = atom(true);
+export const selectedArchiveDayAtom = atom<number | null>(null);
 
 // Reset helper atom
 export const resetQuizAtom = atom(null, (get, set) => {
@@ -16,6 +17,7 @@ export const resetQuizAtom = atom(null, (get, set) => {
     set(gameModeAtom, 'default');
     set(homePageVisibleAtom, true);
     set(quizStartedAtom, false);
+    set(selectedArchiveDayAtom, 0)
   });
   
 type QuizResult = {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Archive.module.scss';
 import { useSetAtom } from 'jotai';
-import { gameModeAtom } from '../atoms';
+import { gameModeAtom, selectedArchiveDayAtom } from '../atoms';
 
 const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -17,6 +17,7 @@ function Archive() {
   const currentMonth = currentDate.getMonth();
   const currentYear = currentDate.getFullYear();
   const setGameMode = useSetAtom(gameModeAtom);
+  const setSelectedArchiveDay = useSetAtom(selectedArchiveDayAtom);
 
   const getDaysInMonth = (month: number, year: number) => {
     return new Date(year, month + 1, 0).getDate();
@@ -41,9 +42,10 @@ function Archive() {
     const baseDate = new Date(2025, 3, 20); // April 20, 2025
   
     const timeDiff = clickedDate.getTime() - baseDate.getTime();
-    const dayOffset = Math.floor(timeDiff / (1000 * 60 * 60 * 24)); // convert ms to days
+    const dayOffset = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
   
     if (dayOffset >= 0) {
+      setSelectedArchiveDay(dayOffset);
       setGameMode('Archive');
       navigate(`/archive/day/${dayOffset}`);
     } else {
