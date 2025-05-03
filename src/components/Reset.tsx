@@ -16,6 +16,7 @@ import {
   resultsAtom,
   gameModeAtom,
   selectedArchiveDayAtom,
+  userId,
 } from '../atoms';
 
 function Reset() {
@@ -29,6 +30,8 @@ function Reset() {
     const [gameMode] = useAtom(gameModeAtom);
     const [selectedArchiveDay] = useAtom(selectedArchiveDayAtom);
     const { dayId } = useParams();
+    const [userIdValue] = useAtom(userId);
+    const [hasSubmittedtoDay, setHasSubmittedtoDay] = useState(false);
 
 
     const dayString = selectedArchiveDay !== null
@@ -51,6 +54,23 @@ function Reset() {
               // Default to today
               dayString = new Date().toISOString().split('T')[0];
             }
+
+            // First check if user has already submitted for today
+            const existingSubmissionQuery = query(
+              collection(db, 'quizResults'),
+              where('dayString', '==', dayString),
+              where('userId', '==', userIdValue),
+              where('gameMode', '==', gameMode === 'Archive' ? 'Daily' : gameMode)
+            );
+
+            const existingSubmission = await getDocs(existingSubmissionQuery);
+            if (!existingSubmission.empty) {
+                console.warn('User has already submitted results for today.');
+                setHasSubmittedtoDay(true);
+                return; // Exit early if user has already submitted
+            }
+
+            // If no existing submission, proceed to fetch average stats
             const q = query(
               collection(db, 'quizResults'),
               where('dayString', '==', dayString),
@@ -85,7 +105,7 @@ function Reset() {
         };
       
         fetchAverageStats();
-      }, [gameMode, selectedArchiveDay]);
+      }, [gameMode, selectedArchiveDay, userIdValue]);
       
   
 
@@ -112,11 +132,11 @@ function Reset() {
     };
     
     const sendResultsToFirestore = async () => {
-
-        if (results.length === 0 || gameMode === 'Archive') {
-          console.log('No results to send. Or is Archive');
-          return;  // Avoid sending empty results
+        if (results.length === 0 || gameMode === 'Archive' || hasSubmittedtoDay || resultsSentRef.current) {
+          console.log('No results to send. Or is Archive. Or has Submitted today. Or already sent.');
+          return;
         }
+
         try {
             const finalScore = calculateFinalScore(results);
             const percentage = Math.trunc((correctAnswers / questionIdx) * 100);
@@ -133,6 +153,7 @@ function Reset() {
                 dayString,
                 gameMode,
                 correctAnswers,
+                userId: userIdValue,
                 incorrectAnswers: questionIdx - correctAnswers,
                 totalQuestions: questionIdx,
                 finalScore,
@@ -141,18 +162,18 @@ function Reset() {
             });
 
             console.log('Results saved to Firestore');
+            resultsSentRef.current = true;
         } catch (error) {
             console.error('Error saving results:', error);
         }
     };
 
     useEffect(() => {
-        // Only call sendResultsToFirestore if results haven't been sent already
-        if (!resultsSentRef.current) {
-            resultsSentRef.current = true; // Mark as sent
+        if (!resultsSentRef.current && !hasSubmittedtoDay && results.length > 0) {
+            resultsSentRef.current = true; // Set this before sending to prevent duplicate sends
             sendResultsToFirestore();
         }
-    }, [results]);  // Dependency array to ensure it only runs when results change
+    }, [results]); // Only depend on results changes
 
     return (
         <div className={Reset_module['end-screen']}>
