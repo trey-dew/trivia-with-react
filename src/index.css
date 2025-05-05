@@ -3,6 +3,4 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
-    background-color: grey;
-}
+/* Remove the background color since it's handled in App.module.scss */

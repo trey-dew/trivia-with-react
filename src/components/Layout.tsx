@@ -4,7 +4,7 @@ import styles from './Layout.module.scss';
 import classNames from 'classnames';
 import { useState } from 'react';
 import { useAtom } from 'jotai';
-import { gameModeAtom, homePageVisibleAtom, quizStartedAtom } from '../atoms';
+import { gameModeAtom, homePageVisibleAtom, quizStartedAtom, resultsAtom, resetQuizAtom } from '../atoms';
 
 const Layout = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -13,8 +13,16 @@ const Layout = () => {
   const [, setDifficulty] = useAtom(gameModeAtom);
   const [, setShowHomePage] = useAtom(homePageVisibleAtom);
   const [, setStartQuiz] = useAtom(quizStartedAtom);
+  const [results, setResults] = useAtom(resultsAtom);
+  const [, resetQuiz] = useAtom(resetQuizAtom);
 
   const start = (selectedDifficulty: string) => {
+    // If there are existing results, reset them before starting a new quiz
+    if (results.length > 0) {
+      setResults([]);
+      resetQuiz();
+    }
+
     setDifficulty(selectedDifficulty);
     setShowHomePage(false);
     setStartQuiz(true);

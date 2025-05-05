@@ -12,6 +12,7 @@ import { useAtom } from 'jotai';
 
 import {
     userId,
+    hasSubmitted,
   } from './atoms';
 
 // Preload all video files in the assets folder
@@ -35,11 +36,13 @@ const getOrCreateUserId = (): string => {
 
 function App() {
     const [userIdValue, setUserIdValue] = useAtom(userId);
+    const [hasSubmittedToday] = useAtom(hasSubmitted);
 
   useEffect(() => {
     const id = getOrCreateUserId();
     setUserIdValue(id);
     console.log('User ID:', id); // For testing
+    console.log('Has Submitted:', hasSubmittedToday)
   }, []);
 
   return (
