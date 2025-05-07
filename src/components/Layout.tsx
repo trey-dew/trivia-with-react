@@ -1,13 +1,17 @@
 import { Outlet, useNavigate } from 'react-router-dom';
-import { FaBars, FaHome, FaPlay, FaHistory, FaQuestion, FaInfinity, FaBolt, FaEnvelope } from 'react-icons/fa';
+import { FaBars, FaHome, FaPlay, FaHistory, FaQuestion, FaInfinity, FaBolt, FaEnvelope, FaBroom } from 'react-icons/fa';
 import styles from './Layout.module.scss';
 import classNames from 'classnames';
 import { useState } from 'react';
 import { useAtom } from 'jotai';
-import { gameModeAtom, homePageVisibleAtom, quizStartedAtom, resultsAtom, resetQuizAtom } from '../atoms';
+import { gameModeAtom, homePageVisibleAtom, quizStartedAtom, resultsAtom, resetQuizAtom, userId } from '../atoms';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from '../firebase';
 
 const Layout = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [pendingAction, setPendingAction] = useState<(() => void) | null>(null);
   const navigate = useNavigate();
   
   const [, setDifficulty] = useAtom(gameModeAtom);
@@ -15,9 +19,49 @@ const Layout = () => {
   const [, setStartQuiz] = useAtom(quizStartedAtom);
   const [results, setResults] = useAtom(resultsAtom);
   const [, resetQuiz] = useAtom(resetQuizAtom);
+  const [userIdValue] = useAtom(userId);
 
-  const start = (selectedDifficulty: string) => {
-    // If there are existing results, reset them before starting a new quiz
+  const checkExistingSubmission = async (gameMode: string) => {
+    if (gameMode === 'Archive' || gameMode === 'Endless') return false;
+
+    try {
+      const today = new Date().toISOString().split('T')[0];
+      const q = query(
+        collection(db, 'quizResults'),
+        where('dayString', '==', today),
+        where('userId', '==', userIdValue),
+      );
+
+      const existing = await getDocs(q);
+      return !existing.empty;
+    } catch (error) {
+      console.error('Error checking existing submission:', error);
+      return false;
+    }
+  };
+
+  const handleGameModeChange = async (selectedDifficulty: string) => {
+    // If there are active results, show confirmation
+    if (results.length > 0) {
+      setPendingAction(() => () => startNewGame(selectedDifficulty));
+      setShowConfirmation(true);
+      return;
+    }
+
+    // If no active results, proceed directly
+    await startNewGame(selectedDifficulty);
+  };
+
+  const startNewGame = async (selectedDifficulty: string) => {
+    const hasPlayed = await checkExistingSubmission(selectedDifficulty);
+    
+    if (hasPlayed) {
+      // You might want to show a different message for this case
+      alert("You've already played this mode today!");
+      return;
+    }
+
+    // Reset any existing results
     if (results.length > 0) {
       setResults([]);
       resetQuiz();
@@ -33,7 +77,22 @@ const Layout = () => {
       navigate('/endless');
     } else if (selectedDifficulty === 'Hard') {
       navigate('/hard');
+    } else if (selectedDifficulty === 'Clean') {
+      navigate('/daily');
     }
+  };
+
+  const handleConfirmation = () => {
+    if (pendingAction) {
+      pendingAction();
+    }
+    setShowConfirmation(false);
+    setPendingAction(null);
+  };
+
+  const handleCancel = () => {
+    setShowConfirmation(false);
+    setPendingAction(null);
   };
 
   const toggleSidebar = () => {
@@ -42,11 +101,12 @@ const Layout = () => {
 
   const sidebarItems = [
     { icon: <FaHome />, label: 'Home', onClick: () => navigate('/') },
-    { icon: <FaPlay />, label: 'Daily', onClick: () => start('Daily') },
-    { icon: <FaHistory />, label: 'Archive', onClick: () => navigate('/archive') },
+    { icon: <FaPlay />, label: 'Daily', onClick: () => handleGameModeChange('Daily') },
+    { icon: <FaBroom />, label: 'Clean', onClick: () => handleGameModeChange('Clean') },
+    { icon: <FaBolt />, label: 'Hard', onClick: () => handleGameModeChange('Hard') },
+    { icon: <FaHistory />, label: 'Archive', onClick: () => navigate('/archive') }, 
+    { icon: <FaInfinity />, label: 'Endless', onClick: () => navigate('/Endless') },
     { icon: <FaQuestion />, label: 'How to Play', onClick: () => navigate('/howtoplay') },
-    { icon: <FaInfinity />, label: 'Endless', onClick: () => start('Endless') },
-    { icon: <FaBolt />, label: 'Hard', onClick: () => start('Hard') },
   ];
 
   return (
@@ -75,6 +135,24 @@ const Layout = () => {
           </div>
         </div>
       </aside>
+
+      {/* Confirmation Modal */}
+      {showConfirmation && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <h2>Are you sure?</h2>
+            <p>You have an active game in progress. Switching modes will reset your current progress.</p>
+            <div className={styles.modalButtons}>
+              <button onClick={handleConfirmation} className={styles.confirmButton}>
+                Continue
+              </button>
+              <button onClick={handleCancel} className={styles.cancelButton}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Page Content */}
       <main className={styles.mainContent}>

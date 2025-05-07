@@ -26,7 +26,7 @@ function Homepage() {
   const [, setHasSubmitted] = useAtom(hasSubmitted);
 
   const checkExistingSubmission = async (gameMode: string) => {
-    if (gameMode === 'Archive') return false;
+    if (gameMode === 'Archive' || gameMode === 'Endless') return false;
 
     try {
       const today = new Date().toISOString().split('T')[0];

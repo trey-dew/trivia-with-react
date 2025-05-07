@@ -34,17 +34,6 @@ function Reset() {
     const [userIdValue] = useAtom(userId);
     const [hasSubmittedToday] = useAtom(hasSubmitted);
 
-    // Debug logging for initial state
-    console.log('Reset Component Mounted - Initial State:', {
-        resultsLength: results.length,
-        gameMode,
-        hasSubmittedToday,
-        resultsSentRef: resultsSentRef.current,
-        userId: userIdValue,
-        correctAnswers,
-        questionIdx
-    });
-
     const dayString = selectedArchiveDay !== null
     ? new Date(2025, 3, 20 + selectedArchiveDay).toISOString().split('T')[0]
     : new Date().toISOString().split('T')[0];
@@ -57,12 +46,10 @@ function Reset() {
             let dayString: string;
       
             if (gameMode === 'Archive' && selectedArchiveDay !== null) {
-              // Base date: April 20, 2025 (month is 0-indexed)
               const baseDate = new Date(2025, 3, 20);
               baseDate.setDate(baseDate.getDate() + selectedArchiveDay);
               dayString = baseDate.toISOString().split('T')[0];
             } else {
-              // Default to today
               dayString = new Date().toISOString().split('T')[0];
             }
            
@@ -103,10 +90,6 @@ function Reset() {
       }, [gameMode, selectedArchiveDay, userIdValue]);
       
     const handleReset = () => {
-        console.log('handleReset called - Current State:', {
-            resultsLength: results.length,
-            resultsSentRef: resultsSentRef.current
-        });
         setResults([]);
         resetQuiz();
         navigate('/');
@@ -114,7 +97,7 @@ function Reset() {
     };
 
     const calculateFinalScore = (results: any[]) => {
-        const score = results.reduce((total, res) => {
+        return results.reduce((total, res) => {
             if (res.wasCorrect) {
                 if(res.timeTaken !== undefined) {
                     const timePenalty = Math.trunc(Math.max(0, res.timeTaken - 6) * 110);
@@ -126,23 +109,10 @@ function Reset() {
             }
             return Math.trunc(total);
         }, 0);
-        console.log('Final Score Calculated:', score);
-        return score;
     };
     
     const sendResultsToFirestore = async () => {
-        console.log('Attempting to send results - Pre-check State:', {
-            resultsLength: results.length,
-            gameMode,
-            hasSubmittedToday,
-            resultsSentRef: resultsSentRef.current
-        });
-
         if (results.length === 0 || gameMode === 'Archive') {
-            console.log('Results not sent - Conditions not met:', {
-                resultsLength: results.length,
-                gameMode
-            });
             return;
         }
 
@@ -157,16 +127,6 @@ function Reset() {
                 timeTaken: res.timeTaken !== undefined ? res.timeTaken : 0,
             }));
 
-            console.log('Preparing to send to Firestore:', {
-                dayString,
-                gameMode,
-                correctAnswers,
-                userId: userIdValue,
-                finalScore,
-                percentage,
-                resultsCount: resultsWithValidData.length
-            });
-
             await addDoc(collection(db, 'quizResults'), {
                 date: now.toISOString(),
                 dayString,
@@ -180,7 +140,6 @@ function Reset() {
                 results: resultsWithValidData,
             });
 
-            console.log('Results successfully saved to Firestore');
             resultsSentRef.current = true;
         } catch (error) {
             console.error('Error saving results to Firestore:', error);
@@ -189,31 +148,11 @@ function Reset() {
     };
 
     useEffect(() => {
-        console.log('Results Effect Triggered - State:', {
-            resultsLength: results.length,
-            hasSubmittedToday,
-            resultsSentRef: resultsSentRef.current,
-            componentMounted: true
-        });
-
-        // Only attempt to send if we haven't sent before and have results
         if (!resultsSentRef.current && !hasSubmittedToday && results.length > 0) {
-            console.log('Attempting to send results - Setting resultsSentRef to true');
-            resultsSentRef.current = true; // Set this before sending to prevent duplicate sends
+            resultsSentRef.current = true;
             sendResultsToFirestore();
-        } else {
-            console.log('Results not sent - Conditions not met:', {
-                resultsSentRef: resultsSentRef.current,
-                hasSubmittedToday,
-                resultsLength: results.length
-            });
         }
-
-        // Cleanup function to prevent memory leaks
-        return () => {
-            console.log('Results Effect Cleanup');
-        };
-    }, [results]); // Remove hasSubmittedToday from dependencies to prevent extra triggers
+    }, [results]);
 
     return (
         <div className={Reset_module['end-screen']}>
@@ -232,7 +171,7 @@ function Reset() {
             )}
             <h2 className={Reset_module['reset-text']}>Results...</h2>
             {results.map((res,idx) => (
-                <div key={idx} >
+                <div key={idx}>
                     <p><strong>Q:</strong> {res.question.question} <strong>{res.wasCorrect ? '✅ Correct' : '❌ Incorrect'}</strong></p>
                     {res.timeTaken !== undefined && (
                     <p><strong>Time Taken:</strong> {res.timeTaken.toFixed(1)}s </p>
