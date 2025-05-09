@@ -26,11 +26,20 @@ const videoMap = import.meta.glob('../assets/videos/*.mp4', { eager: true });
 
 // gets and sets the date based off the question day value
 function getDateFromDayOffset(offset: number): string {
-  const baseDate = new Date(2025, 3, 20); // Months are 0-indexed (3 = April) CHANGE THIS IF WANT NEW START DATE
+  const baseDate = new Date(2025, 4, 8); // Months are 0-indexed (4 = May, May 8th 2025) CHANGE THIS IF WANT NEW START DATE
   baseDate.setDate(baseDate.getDate() + offset);
   return baseDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
+// Get current day index based on Central Time Zone
+function getCurrentDayIndex(): number {
+  const now = new Date();
+  const centralTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
+  const baseDate = new Date(2025, 4, 8); // May 8th, 2025
+  const diffTime = centralTime.getTime() - baseDate.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  return Math.max(0, diffDays); // Ensure we don't return negative days
+}
 
 function Quizpage() {
   const navigate = useNavigate();
@@ -53,41 +62,40 @@ function Quizpage() {
   const [shouldEndAfterNext, setShouldEndAfterNext] = useState(false);
   const { dayId } = useParams();
 
-
-
   const selectedArchiveDay = gameMode === 'Archive' && /^\d+$/.test(dayId || '')
-  ? parseInt(dayId!)
-  : null;
+    ? parseInt(dayId!)
+    : null;
   
   const videoRef = useRef<HTMLVideoElement>(null);
 
-   // Calculate based on the day based in for daily
- const getFilteredQuestions = () => {
-  if (gameMode === 'Daily') {
-    return (questions as Questions).questions.filter(q => q.day === 0); // CHANGE THIS IF WANT TO TEST DIFFERNT DAY indexing starts at 0
-  } else if (gameMode === 'Endless') {
-    return (questions as Questions).questions; // all of them
-  } else if (gameMode === 'Hard') {
-    return (questions as Questions).questions.filter(q => q.day === 0); // CHANGE THIS IF WANT TO TEST DIFFERNT DAY indexing starts at 0
-  } else if (gameMode === 'Clean') {
-    return (questions as Questions).questions.filter(q => q.day === 1 && q.isClean); // CHANGE THIS IF WANT TO TEST DIFFERNT DAY indexing starts at 0
-  } else if (gameMode === 'Archive' && selectedArchiveDay !== null) {
-    return (questions as Questions).questions.filter(q => q.day === selectedArchiveDay);
-  }  
-  return [];
-};
+  // Calculate based on the day based in for daily
+  const getFilteredQuestions = () => {
+    const currentDayIndex = getCurrentDayIndex();
+    
+    if (gameMode === 'Daily') {
+      return (questions as Questions).questions.filter(q => q.day === currentDayIndex);
+    } else if (gameMode === 'Endless') {
+       return (questions as Questions).questions.filter(q => q.day < currentDayIndex); // Only show questions from days that have been played
+    } else if (gameMode === 'Hard') {
+      return (questions as Questions).questions.filter(q => q.day === currentDayIndex);
+    } else if (gameMode === 'Clean') {
+      return (questions as Questions).questions.filter(q => q.day === currentDayIndex && q.isClean);
+    } else if (gameMode === 'Archive' && selectedArchiveDay !== null) {
+      return (questions as Questions).questions.filter(q => q.day === selectedArchiveDay);
+    }  
+    return [];
+  };
 
-const filteredQuestions = getFilteredQuestions();
+  const filteredQuestions = getFilteredQuestions();
 
   // Derived values
   const isQuizFinished = currentQuestionIdx >= filteredQuestions.length;
   const currentQuestion = filteredQuestions[currentQuestionIdx];
 
-  // gets the quizdate from quesitons day
+  // gets the quizdate from questions day
   const quizDate = gameMode !== 'Endless'
     ? getDateFromDayOffset(currentQuestion?.day || 0)
     : undefined;
-
 
   const videoSrc = !isQuizFinished && currentQuestion?.video
     ? (videoMap[`../assets/videos/${currentQuestion.video}`] as any)?.default
