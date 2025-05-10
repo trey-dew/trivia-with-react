@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai';
 import { useNavigate } from 'react-router-dom';
-import { resultsAtom, gameModeAtom, correctAnswersAtom, currentQuestionIdxAtom, selectedArchiveDayAtom, userId, hasSubmitted } from '../atoms';
+import { resultsAtom, gameModeAtom, correctAnswersAtom, currentQuestionIdxAtom, selectedArchiveDayAtom, userId, hasSubmitted, resetQuizAtom } from '../atoms';
 import styles from './Resultspage.module.scss';
 import { useEffect, useState, useRef } from 'react';
 import { collection, query, where, getDocs, addDoc } from 'firebase/firestore';
@@ -19,6 +19,14 @@ function Resultspage() {
   const [averageCorrectAnswers, setAverageCorrectAnswers] = useState<number | null>(null);
   const [averagePercentage, setAveragePercentage] = useState<number | null>(null);
   const resultsSentRef = useRef(false);
+  const [, resetQuiz] = useAtom(resetQuizAtom);
+  const [, setResults] = useAtom(resultsAtom);
+
+  const handleReturnHome = () => {
+    setResults([]);
+    resetQuiz();
+    navigate('/');
+  };
 
   useEffect(() => {
     const fetchAverageStats = async () => {
@@ -209,7 +217,7 @@ function Resultspage() {
         ))}
       </div>
 
-      <button onClick={() => navigate('/')} className={styles.homeButton}>
+      <button onClick={handleReturnHome} className={styles.homeButton}>
         Return Home
       </button>
     </div>

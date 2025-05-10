@@ -39,7 +39,7 @@ function Archive() {
 
   const handleDayClick = (day: number) => {
     const clickedDate = new Date(currentYear, currentMonth, day);
-    const baseDate = new Date(2025, 3, 20); // April 20, 2025
+    const baseDate = new Date(2025, 4, 8); // April 20, 2025 ALSO CHANGE THIS IF WANT NEW START DATE
   
     const timeDiff = clickedDate.getTime() - baseDate.getTime();
     const dayOffset = Math.floor(timeDiff / (1000 * 60 * 60 * 24));

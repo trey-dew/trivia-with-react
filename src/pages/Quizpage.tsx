@@ -14,6 +14,8 @@ import {
   gameModeAtom,
   quizStartedAtom,
   homePageVisibleAtom,
+  resetQuizAtom,
+  resultsAtom
 } from '../atoms';
 
 import styles from '../App.module.scss';
@@ -43,6 +45,7 @@ function getCurrentDayIndex(): number {
 
 function Quizpage() {
   const navigate = useNavigate();
+  const { dayId } = useParams();
 
   // Global state (Jotai atoms)
   const [currentQuestionIdx, setCurrentQuestionIdx] = useAtom(currentQuestionIdxAtom);
@@ -51,6 +54,8 @@ function Quizpage() {
   const [gameMode] = useAtom(gameModeAtom);
   const [startQuiz] = useAtom(quizStartedAtom);
   const [showHomePage] = useAtom(homePageVisibleAtom);
+  const [, resetQuiz] = useAtom(resetQuizAtom);
+  const [, setResults] = useAtom(resultsAtom);
 
   // Local state (specific to this component's lifecycle)
   const [waitingToAdvance, setWaitingToAdvance] = useState(false);
@@ -60,13 +65,22 @@ function Quizpage() {
   const [hasPaused, setHasPaused] = useState(false);
   const [questionTimes, setQuestionTimes] = useState<number[]>([]);
   const [shouldEndAfterNext, setShouldEndAfterNext] = useState(false);
-  const { dayId } = useParams();
 
-  const selectedArchiveDay = gameMode === 'Archive' && /^\d+$/.test(dayId || '')
+  // Use the URL param as the source of truth for Archive mode
+  const archiveDayFromUrl = gameMode === 'Archive' && /^\d+$/.test(dayId || '')
     ? parseInt(dayId!)
     : null;
   
   const videoRef = useRef<HTMLVideoElement>(null);
+
+
+   //Reset quiz state when gameMode or archive day changes
+  useEffect(() => {
+    setResults([]);
+    setCurrentQuestionIdx(0);
+    setCorrectAnswers(0);
+    setIncorrectAnswers(0);
+  }, [gameMode, dayId]);
 
   // Calculate based on the day based in for daily
   const getFilteredQuestions = () => {
@@ -80,8 +94,8 @@ function Quizpage() {
       return (questions as Questions).questions.filter(q => q.day === currentDayIndex);
     } else if (gameMode === 'Clean') {
       return (questions as Questions).questions.filter(q => q.day === currentDayIndex && q.isClean);
-    } else if (gameMode === 'Archive' && selectedArchiveDay !== null) {
-      return (questions as Questions).questions.filter(q => q.day === selectedArchiveDay);
+    } else if (gameMode === 'Archive' && archiveDayFromUrl !== null) {
+      return (questions as Questions).questions.filter(q => q.day === archiveDayFromUrl);
     }  
     return [];
   };
@@ -185,13 +199,14 @@ function Quizpage() {
   }, [currentQuestionIdx, playFullVideo, isQuizFinished, videoSrc]);
 
   useEffect(() => {
-    if (gameMode === 'Archive' && selectedArchiveDay !== null) {
-      const questionExists = (questions as Questions).questions.some(q => q.day === selectedArchiveDay);
+    if (gameMode === 'Archive' && archiveDayFromUrl !== null) {
+      const questionExists = (questions as Questions).questions.some(q => q.day === archiveDayFromUrl);
       if (!questionExists) {
+        console.log('No questions found for archiveDayFromUrl:', archiveDayFromUrl);
         navigate('/'); // or show an error message instead
       }
     }
-  }, [selectedArchiveDay, gameMode]);
+  }, [archiveDayFromUrl, gameMode]);
   
 
   // Jump to current question's start time whenever video changes

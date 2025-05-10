@@ -10,6 +10,7 @@ export const homePageVisibleAtom = atom(true);
 export const selectedArchiveDayAtom = atom<number | null>(null);
 export const userId = atom<string>('')
 export const hasSubmitted = atom<boolean>(false)
+export const resultsAtom = atom<QuizResult[]>([]);
 
 // Reset helper atom
 export const resetQuizAtom = atom(null, (get, set) => {
@@ -20,7 +21,8 @@ export const resetQuizAtom = atom(null, (get, set) => {
     set(homePageVisibleAtom, true);
     set(quizStartedAtom, false);
     set(selectedArchiveDayAtom, 0);
-    set(hasSubmitted, false)
+    set(hasSubmitted, false);
+    set(resultsAtom, []);
 });
   
 type QuizResult = {
@@ -29,4 +31,3 @@ type QuizResult = {
   timeTaken?: number;
 };
 
-export const resultsAtom = atom<QuizResult[]>([]);

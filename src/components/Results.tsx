@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai';
 import { useNavigate } from 'react-router-dom';
-import { resultsAtom, gameModeAtom, correctAnswersAtom, currentQuestionIdxAtom } from '../atoms';
+import { resultsAtom, gameModeAtom, correctAnswersAtom, currentQuestionIdxAtom, resetQuizAtom } from '../atoms';
 import styles from './Results.module.scss';
 import { useEffect, useState } from 'react';
 
@@ -9,8 +9,28 @@ function Results() {
   const [gameMode] = useAtom(gameModeAtom);
   const [correctAnswers] = useAtom(correctAnswersAtom);
   const [questionIdx] = useAtom(currentQuestionIdxAtom);
+  const [, resetQuiz] = useAtom(resetQuizAtom);
+  const [, setResults] = useAtom(resultsAtom);
   const navigate = useNavigate();
   const [shareText, setShareText] = useState('');
+
+  const handleReturnHome = () => {
+    setResults([]);
+    resetQuiz();
+    navigate('/');
+  };
+
+  // Handle no results or no questions
+  if (results.length === 0 || questionIdx === 0) {
+    return (
+      <div className={styles.resultsContainer}>
+        <h1>No questions available for this mode/day.</h1>
+        <button onClick={handleReturnHome} className={styles.homeButton}>
+          Return Home
+        </button>
+      </div>
+    );
+  }
 
   useEffect(() => {
     // Generate share text in Wordle style
@@ -93,7 +113,7 @@ function Results() {
         ))}
       </div>
 
-      <button onClick={() => navigate('/')} className={styles.homeButton}>
+      <button onClick={handleReturnHome} className={styles.homeButton}>
         Return Home
       </button>
     </div>
