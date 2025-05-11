@@ -105,14 +105,36 @@ function QuestionComp({question, videoSrc, videoRef, playDisabled,showReplay, on
       <h3 className={Question_module.question}>{question.question}</h3>
 
       <div className={Question_module.video}>
-        <video key={videoSrc} ref={videoRef} width="600" autoPlay>
+        <video 
+          key={videoSrc} 
+          ref={videoRef} 
+          width="600" 
+          autoPlay
+          onError={(e) => {
+            console.error('Video error:', e);
+          }}
+          onPlay={() => {
+            // Clear any existing play promises
+            if (videoRef.current) {
+              videoRef.current.play().catch(() => {
+                // Ignore play interruption errors
+              });
+            }
+          }}
+        >
           <source src={videoSrc} type="video/mp4" />
         </video>
       </div>
 
       <div className={Question_module.controlls}>
         <button
-          onClick={() => videoRef.current?.play()}
+          onClick={() => {
+            if (videoRef.current) {
+              videoRef.current.play().catch(() => {
+                // Ignore play interruption errors
+              });
+            }
+          }}
           disabled={playDisabled}
           className={Question_module.vcontrolls}
         >
@@ -130,7 +152,15 @@ function QuestionComp({question, videoSrc, videoRef, playDisabled,showReplay, on
 
         {showReplay && (
           <button
-            onClick={onReplay}
+            onClick={() => {
+              if (videoRef.current) {
+                videoRef.current.currentTime = 0;
+                videoRef.current.play().catch(() => {
+                  // Ignore play interruption errors
+                });
+              }
+              onReplay();
+            }}
             className={Question_module.vcontrolls}
           >
             <RotateCcw size={18} style={{ marginRight: '6px' }} />

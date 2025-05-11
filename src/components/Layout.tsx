@@ -104,8 +104,8 @@ const Layout = () => {
     { icon: <FaPlay />, label: 'Daily', onClick: () => handleGameModeChange('Daily') },
     { icon: <FaBroom />, label: 'Clean', onClick: () => handleGameModeChange('Clean') },
     { icon: <FaBolt />, label: 'Hard', onClick: () => handleGameModeChange('Hard') },
-    { icon: <FaHistory />, label: 'Archive', onClick: () => navigate('/archive') }, 
     { icon: <FaInfinity />, label: 'Endless', onClick: () => navigate('/Endless') },
+    { icon: <FaHistory />, label: 'Archive', onClick: () => navigate('/archive') }, 
     { icon: <FaQuestion />, label: 'How to Play', onClick: () => navigate('/howtoplay') },
   ];
 

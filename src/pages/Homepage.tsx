@@ -14,6 +14,12 @@ import {
   hasSubmitted,
 } from '../atoms';
 
+// Helper function to get Central Time date string
+const getCentralTimeDateString = (date: Date = new Date()): string => {
+  const centralTime = new Date(date.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
+  return centralTime.toISOString().split('T')[0];
+};
+
 function Homepage() {
   const navigate = useNavigate();
   const [showAlreadyPlayedPopup, setShowAlreadyPlayedPopup] = useState(false);
@@ -29,11 +35,12 @@ function Homepage() {
     if (gameMode === 'Archive' || gameMode === 'Endless') return false;
 
     try {
-      const today = new Date().toISOString().split('T')[0];
+      const today = getCentralTimeDateString();
       const q = query(
         collection(db, 'quizResults'),
         where('dayString', '==', today),
         where('userId', '==', userIdValue),
+        where('gameMode', 'in', ['Daily', 'Hard', 'Clean'])  // Only check these specific modes
       );
 
       const existing = await getDocs(q);

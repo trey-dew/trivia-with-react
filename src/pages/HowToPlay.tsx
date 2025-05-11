@@ -27,8 +27,9 @@ function HowToPlay() {
                     <ul>
                         <li>Same questions as Daily</li>
                         <li>6s grace period</li>
-                        <li>-110 points per second after</li>
-                        <li>Min score: 100 points</li>
+                        <li>500 bonus points if under 3 seconds</li>
+                        <li>-110 points per second after 6</li>
+                        <li>Min score: 100 points if correct</li>
                     </ul>
                 </div>
 

@@ -6,6 +6,12 @@ import { useEffect, useState, useRef } from 'react';
 import { collection, query, where, getDocs, addDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
+// Helper function to get Central Time date string
+const getCentralTimeDateString = (date: Date = new Date()): string => {
+  const centralTime = new Date(date.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
+  return centralTime.toISOString().split('T')[0];
+};
+
 function Resultspage() {
   const [results] = useAtom(resultsAtom);
   const [gameMode] = useAtom(gameModeAtom);
@@ -34,17 +40,17 @@ function Resultspage() {
         let dayString: string;
   
         if (gameMode === 'Archive' && selectedArchiveDay !== null) {
-          const baseDate = new Date(2025, 3, 20);
+          const baseDate = new Date(2025, 4, 8);
           baseDate.setDate(baseDate.getDate() + selectedArchiveDay);
-          dayString = baseDate.toISOString().split('T')[0];
+          dayString = getCentralTimeDateString(baseDate);
         } else {
-          dayString = new Date().toISOString().split('T')[0];
+          dayString = getCentralTimeDateString();
         }
        
         const q = query(
           collection(db, 'quizResults'),
           where('dayString', '==', dayString),
-          where('gameMode', '==', gameMode === 'Archive' ? 'Daily' : gameMode)
+          where('gameMode', '==', 'Daily')
         );
   
         const querySnapshot = await getDocs(q);
@@ -86,7 +92,7 @@ function Resultspage() {
       const finalScore = calculateFinalScore(results);
       const percentage = Math.trunc((correctAnswers / questionIdx) * 100);
       const now = new Date();
-      const dayString = now.toISOString().split('T')[0];
+      const dayString = getCentralTimeDateString(now);
 
       const resultsWithValidData = results.map((res) => ({
         ...res,
@@ -94,7 +100,7 @@ function Resultspage() {
       }));
 
       await addDoc(collection(db, 'quizResults'), {
-        date: now.toISOString(),
+        date: getCentralTimeDateString(now),
         dayString,
         gameMode,
         correctAnswers,
@@ -125,7 +131,7 @@ function Resultspage() {
     const generateShareText = () => {
       const totalQuestions = results.length;
       const percentage = Math.round((correctAnswers / totalQuestions) * 100);
-      const date = new Date().toLocaleDateString();
+      const date = new Date().toLocaleDateString('en-US', { timeZone: 'America/Chicago' });
       
       let text = `Vine'L ${gameMode} ${date}\n`;
       text += `${correctAnswers}/${totalQuestions} ${percentage}%\n\n`;
@@ -156,8 +162,10 @@ function Resultspage() {
       if (res.wasCorrect) {
         if(res.timeTaken !== undefined) {
           const timePenalty = Math.trunc(Math.max(0, res.timeTaken - 6) * 110);
-          const score = Math.max(100, 1000 - timePenalty);
-          return total + score;
+          const baseScore = Math.max(100, 1000 - timePenalty);
+          // Add 500 point bonus for answers under 3 seconds in Hard mode
+          const speedBonus = gameMode === 'Hard' && res.timeTaken < 3 ? 500 : 0;
+          return total + baseScore + speedBonus;
         } else {
           return total + 1000;
         }
@@ -185,9 +193,14 @@ function Resultspage() {
           </div>
         ) : (
           <div className={styles.stats}>
-            <div>Score: {totalScore}</div>
-            <div>Correct: {correctAnswers}/{questionIdx}</div>
-            <div>Accuracy: {Math.round((correctAnswers / questionIdx) * 100)}%</div>
+            <div>
+              <h2>You scored: {Math.trunc(correctAnswers / questionIdx * 100)}%</h2>
+              <h2>No average data available</h2>
+            </div>
+            <div>
+              <h2>Score: {totalScore} / {questionIdx * 1000}</h2>
+              <h2>No average data available</h2>
+            </div>
           </div>
         )}
       </div>
