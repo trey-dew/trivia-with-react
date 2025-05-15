@@ -15,7 +15,8 @@ import {
   quizStartedAtom,
   homePageVisibleAtom,
   resetQuizAtom,
-  resultsAtom
+  resultsAtom,
+  globalStartDate
 } from '../atoms';
 
 import styles from '../App.module.scss';
@@ -28,7 +29,7 @@ const videoMap = import.meta.glob('../assets/videos/*.mp4', { eager: true });
 
 // gets and sets the date based off the question day value
 function getDateFromDayOffset(offset: number): string {
-  const baseDate = new Date(2025, 4, 8); // Months are 0-indexed (4 = May, May 8th 2025) CHANGE THIS IF WANT NEW START DATE
+  const baseDate = new Date(globalStartDate); // Months are 0-indexed (4 = May, May 8th 2025) CHANGE THIS IF WANT NEW START DATE
   baseDate.setDate(baseDate.getDate() + offset);
   return baseDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
 }
@@ -37,7 +38,7 @@ function getDateFromDayOffset(offset: number): string {
 function getCurrentDayIndex(): number {
   const now = new Date();
   const centralTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
-  const baseDate = new Date(2025, 4, 8); // May 8th, 2025
+  const baseDate = new Date(globalStartDate); // May 8th, 2025
   const diffTime = centralTime.getTime() - baseDate.getTime();
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
   return Math.max(0, diffDays); // Ensure we don't return negative days

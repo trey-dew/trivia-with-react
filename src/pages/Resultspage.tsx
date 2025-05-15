@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai';
 import { useNavigate } from 'react-router-dom';
-import { resultsAtom, gameModeAtom, correctAnswersAtom, currentQuestionIdxAtom, selectedArchiveDayAtom, userId, hasSubmitted, resetQuizAtom } from '../atoms';
+import { resultsAtom, gameModeAtom, correctAnswersAtom, currentQuestionIdxAtom, selectedArchiveDayAtom, userId, hasSubmitted, resetQuizAtom, globalStartDate } from '../atoms';
 import styles from './Resultspage.module.scss';
 import { useEffect, useState, useRef } from 'react';
 import { collection, query, where, getDocs, addDoc } from 'firebase/firestore';
@@ -40,7 +40,7 @@ function Resultspage() {
         let dayString: string;
   
         if (gameMode === 'Archive' && selectedArchiveDay !== null) {
-          const baseDate = new Date(2025, 4, 8);
+          const baseDate = new Date(globalStartDate);
           baseDate.setDate(baseDate.getDate() + selectedArchiveDay);
           dayString = getCentralTimeDateString(baseDate);
         } else {

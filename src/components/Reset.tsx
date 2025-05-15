@@ -18,6 +18,7 @@ import {
   selectedArchiveDayAtom,
   userId,
   hasSubmitted,
+  globalStartDate,
 } from '../atoms';
 
 function Reset() {
@@ -35,7 +36,7 @@ function Reset() {
     const [hasSubmittedToday] = useAtom(hasSubmitted);
 
     const dayString = selectedArchiveDay !== null
-    ? new Date(2025, 3, 20 + selectedArchiveDay).toISOString().split('T')[0]
+    ? new Date(globalStartDate + selectedArchiveDay).toISOString().split('T')[0]
     : new Date().toISOString().split('T')[0];
 
     const navigate = useNavigate();
@@ -46,7 +47,7 @@ function Reset() {
             let dayString: string;
       
             if (gameMode === 'Archive' && selectedArchiveDay !== null) {
-              const baseDate = new Date(2025, 3, 20);
+              const baseDate = new Date(globalStartDate);
               baseDate.setDate(baseDate.getDate() + selectedArchiveDay);
               dayString = baseDate.toISOString().split('T')[0];
             } else {

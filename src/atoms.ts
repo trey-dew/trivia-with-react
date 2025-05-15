@@ -11,6 +11,7 @@ export const selectedArchiveDayAtom = atom<number | null>(null);
 export const userId = atom<string>('')
 export const hasSubmitted = atom<boolean>(false)
 export const resultsAtom = atom<QuizResult[]>([]);
+export const globalStartDate = "2025, 5, 15";  // May 15th 2025
 
 // Reset helper atom
 export const resetQuizAtom = atom(null, (get, set) => {

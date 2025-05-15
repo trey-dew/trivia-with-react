@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Archive.module.scss';
 import { useSetAtom } from 'jotai';
-import { gameModeAtom, selectedArchiveDayAtom } from '../atoms';
+import { gameModeAtom, globalStartDate, selectedArchiveDayAtom } from '../atoms';
 
 const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -39,19 +39,30 @@ function Archive() {
 
   const handleDayClick = (day: number) => {
     const clickedDate = new Date(currentYear, currentMonth, day);
-    const baseDate = new Date(2025, 4, 8); // April 20, 2025 ALSO CHANGE THIS IF WANT NEW START DATE
+    const baseDate = new Date(globalStartDate); // e.g., April 20, 2025
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // ignore time portion
+  
+    // Disallow dates before the archive start
+    if (clickedDate < baseDate) {
+      alert("That date is before the start of the quiz archive.");
+      return;
+    }
+  
+    // Disallow future dates
+    if (clickedDate > today) {
+      alert("That date is in the future!");
+      return;
+    }
   
     const timeDiff = clickedDate.getTime() - baseDate.getTime();
     const dayOffset = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
   
-    if (dayOffset >= 0) {
-      setSelectedArchiveDay(dayOffset);
-      setGameMode('Archive');
-      navigate(`/archive/day/${dayOffset}`);
-    } else {
-      alert("That date is before the start of the quiz archive.");
-    }
+    setSelectedArchiveDay(dayOffset);
+    setGameMode('Archive');
+    navigate(`/archive/day/${dayOffset}`);
   };
+  
   
 
   const daysInMonth = getDaysInMonth(currentMonth, currentYear);
@@ -72,6 +83,13 @@ function Archive() {
     return date.getDate() === today.getDate() &&
            date.getMonth() === today.getMonth() &&
            date.getFullYear() === today.getFullYear();
+  };
+
+  const isFutureDate = (date: Date | null) => {
+    if (!date) return false;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return date > today;
   };
 
   return (
@@ -101,6 +119,7 @@ function Archive() {
               <button 
                 className={`${styles.dayButton} ${isToday(date) ? styles.today : ''}`}
                 onClick={() => handleDayClick(day)}
+                disabled={isFutureDate(date)}
               >
                 {day}
               </button>
