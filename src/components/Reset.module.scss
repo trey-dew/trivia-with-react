@@ -1,5 +1,4 @@
 .reset-btn {
-    
     justify-content: center;
     justify-items: center;
     align-content: center;
@@ -7,19 +6,19 @@
     text-align: center;
     display: flex;
     width: auto;
-    padding: 1% 20%;
+    padding: clamp(0.5rem, 2vw, 1rem) clamp(1rem, 10vw, 20%);
     margin-top: 2%;
 }
 
-
 .next-btn {
     margin: 2rem auto 0;
-    padding: 1rem 2rem;
+    padding: clamp(0.8rem, 3vw, 1rem) clamp(1.5rem, 4vw, 2rem);
     display: block;
     text-align: center;
-    position: static; /* Remove relative positioning unless necessary */
+    position: static;
+    width: min(320px, 90%);
+    font-size: clamp(0.9rem, 2vw, 1rem);
 }
-
 
 .reset-text {
     font-family: Verdana, sans-serif;
@@ -28,7 +27,7 @@
     position: static;
     justify-content: center;
     justify-items: center;
-    padding: 1% 20%;
+    padding: clamp(0.5rem, 2vw, 1rem) clamp(1rem, 10vw, 20%);
     margin-top: 2%;
     text-align: center;
     display: flex;
@@ -36,12 +35,24 @@
     align-content: center;
     justify-content: center;
     justify-items: center;
-    margin-right: 0%;
-    margin-left: 0%;
+    margin-right: 0;
+    margin-left: 0;
     width: auto;
     color: aliceblue;
+    font-size: clamp(0.9rem, 2vw, 1rem);
 }
 
 .end-screen {
-    padding: 8%;
+    padding: clamp(4%, 6vw, 8%);
+}
+
+@media (max-width: 480px) {
+    .reset-btn,
+    .reset-text {
+        padding: 0.5rem 1rem;
+    }
+    
+    .end-screen {
+        padding: 4%;
+    }
 }

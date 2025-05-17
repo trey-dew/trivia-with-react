@@ -3,19 +3,26 @@
     color: #FFFFFF;
     font-weight: 900;
     text-align: center;
+    font-size: clamp(1.2rem, 4vw, 1.5rem);
+    padding: 0 1rem;
 }
 
 .app {
     background-color: #4D4D4D;
-    padding: 10px 0%;
+    padding: 10px 5%;
     position: static;
-    margin: 0% 10%;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .video {   
     display: flex;
     justify-content: center;
-    padding: 30px 0%;
+    padding: 20px 0;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .controlls {
@@ -23,10 +30,12 @@
     justify-content: center;
     gap: 10px;
     margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
 .vcontrolls {
-    width: 5%;
+    width: auto;
+    min-width: 60px;
     padding: 10px;
     background-color: #1A1717;
     color: #FFFFFF;
@@ -34,6 +43,7 @@
     font-weight: 600;
     border: 1px solid #000000;
     border-radius: 10px;
+    font-size: clamp(0.9rem, 2vw, 1rem);
 
     &:hover {
         border: 3px solid rgb(23, 23, 225);
@@ -42,10 +52,12 @@
 
 .next-btn {
     margin: 2rem auto 0;
-    padding: 1rem 2rem;
+    padding: clamp(0.8rem, 3vw, 1rem) clamp(1.5rem, 4vw, 2rem);
     display: block;
     text-align: center;
-    position: static; /* Remove relative positioning unless necessary */
+    position: static;
+    width: min(320px, 90%);
+    font-size: clamp(0.9rem, 2vw, 1rem);
 }
 
 .hardInputWrapper {
@@ -54,45 +66,52 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  
-  .hardInput {
-    padding: 10px;
-    font-size: 1rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
     width: 100%;
-    max-width: 400px;
-    margin-bottom: 10px;
-  }
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1rem;
   
-  .submitButton {
-    padding: 10px 20px;
-    font-size: 1rem;
-    background-color: #000000;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
+    .hardInput {
+        padding: 12px;
+        font-size: clamp(0.9rem, 2vw, 1rem);
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        width: 100%;
+        margin-bottom: 10px;
+    }
   
-  .submitButton:hover {
-    background-color: #0056b3;
-  }
+    .submitButton {
+        padding: 12px 24px;
+        font-size: clamp(0.9rem, 2vw, 1rem);
+        background-color: #000000;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: 100%;
+        max-width: 200px;
+    }
   
-  .container {
+    .submitButton:hover {
+        background-color: #0056b3;
+        transform: scale(1.02);
+    }
+}
+
+.container {
     position: relative;
     max-width: 400px;
-  }
-  
-  .input {
+}
+
+.input {
     width: 100%;
     padding: 8px;
     font-size: 16px;
-  }
-  
-  .suggestions {
+}
+
+.suggestions {
     position: absolute;
     background: white;
     border: 1px solid #ccc;
@@ -103,23 +122,23 @@
     max-height: 150px;
     overflow-y: auto;
     z-index: 10;
-  }
-  
-  .suggestions li {
+}
+
+.suggestions li {
     padding: 8px;
     cursor: pointer;
-  }
-  
-  .suggestions li:hover {
+}
+
+.suggestions li:hover {
     background-color: #eee;
-  }
-  
-  .submitBtn {
+}
+
+.submitBtn {
     margin-top: 8px;
     padding: 8px 16px;
-  }
-  
-  .suggestionList {
+}
+
+.suggestionList {
     position: absolute;
     top: 100%;
     left: 0;
@@ -138,59 +157,58 @@
     transform: translateY(-5px);
     pointer-events: none;
     transition: opacity 0.2s ease, transform 0.2s ease;
-  }
-  
-  .suggestionVisible {
+}
+
+.suggestionVisible {
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
-  }
-  
-  .timeTaken {
+}
+
+.timeTaken {
     margin-top: 12px;
     color: #ffffff;
     font-size: 1rem;
     font-weight: bold;
     text-align: center;
-  }
-  
-  .correct {
+}
+
+.correct {
     animation: correctPop 0.4s ease;
     background-color: #d4edda;
     color: #155724;
-  }
-  
-  @keyframes correctPop {
+}
+
+@keyframes correctPop {
     0% {
-      transform: scale(1);
-      box-shadow: 0 0 0 rgba(40, 167, 69, 0);
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(40, 167, 69, 0);
     }
     50% {
-      transform: scale(1.05);
-      box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
+        transform: scale(1.05);
+        box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
     }
     100% {
-      transform: scale(1);
-      box-shadow: 0 0 0 rgba(40, 167, 69, 0);
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(40, 167, 69, 0);
     }
-  }
-  
-  .incorrect {
+}
+
+.incorrect {
     animation: incorrectShake 0.3s ease;
     background-color: #f8d7da;
     color: #721c24;
-  }
-  
-  @keyframes incorrectShake {
+}
+
+@keyframes incorrectShake {
     0% { transform: translateX(0); }
     25% { transform: translateX(-5px); }
     50% { transform: translateX(5px); }
     75% { transform: translateX(-5px); }
     100% { transform: translateX(0); }
-  }
-  
-  
-  .suggestionButton {
+}
+
+.suggestionButton {
     background-color: #f1f1f1;
     border: none;
     padding: 8px 10px;
@@ -199,15 +217,34 @@
     cursor: pointer;
     transition: background 0.2s ease;
     font-size: 14px;
-  }
-  
-  .suggestionButton:hover {
-    background-color: #e0e0e0;
-  }
+}
 
-  .highlighted {
+.suggestionButton:hover {
+    background-color: #e0e0e0;
+}
+
+.highlighted {
     background-color: #d6d6d6;
     color: black;
-  }
+}
+
+@media (max-width: 480px) {
+    .app {
+        padding: 10px 2%;
+    }
+    
+    .video {
+        padding: 15px 0;
+    }
+    
+    .controlls {
+        gap: 8px;
+    }
+    
+    .vcontrolls {
+        min-width: 50px;
+        padding: 8px;
+    }
+}
   
   

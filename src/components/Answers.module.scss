@@ -4,8 +4,18 @@
     align-items: center;
     align-content: center;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: clamp(8px, 2vw, 10px);
     justify-content: space-between;
-    margin: 0%;
-    padding: 0 clamp(1rem, 5vw, 3rem);
+    margin: 0;
+    padding: 0 clamp(0.5rem, 3vw, 3rem);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+    .options {
+        gap: 8px;
+        padding: 0 0.5rem;
+        justify-content: center;
+    }
 }
