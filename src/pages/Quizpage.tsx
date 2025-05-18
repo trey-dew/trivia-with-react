@@ -247,19 +247,6 @@ function Quizpage() {
     }
   }, [isQuizFinished]);
 
-  // Add effect to log state changes
-  useEffect(() => {
-    console.log('Quiz state updated:', JSON.stringify({
-      currentQuestionIdx,
-      correctAnswers,
-      incorrectAnswers,
-      isQuizFinished,
-      waitingToAdvance,
-      shouldEndAfterNext,
-      filteredQuestionsLength: filteredQuestions.length
-    }, null, 2));
-  }, [currentQuestionIdx, correctAnswers, incorrectAnswers, isQuizFinished, waitingToAdvance, shouldEndAfterNext]);
-
   const fallbackUI = (
     <div className={styles.appWrapper}>
       <main className={styles.mainContent}>
