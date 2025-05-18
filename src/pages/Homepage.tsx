@@ -15,36 +15,6 @@ import {
   hasSubmitted,
 } from '../atoms';
 
-interface ErrorBoundaryProps {
-  children: React.ReactNode;
-  fallback: React.ReactNode;
-}
-
-interface ErrorBoundaryState {
-  hasError: boolean;
-}
-
-class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  state = { hasError: false };
-
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    return { hasError: true };
-  }
-
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
-    console.error('Error caught by boundary:', error, errorInfo);
-  }
-
-  render(): React.ReactNode {
-    if (this.state.hasError) {
-      return this.props.fallback;
-    }
-    return this.props.children;
-  }
-}
-
-export { ErrorBoundary };
-
 // Helper function to get Central Time date string
 const getCentralTimeDateString = (date: Date = new Date()): string => {
   const centralTime = new Date(date.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
@@ -115,8 +85,8 @@ function Homepage() {
   // Message to be rendered between logo and buttons
   const alreadyPlayedMessage = showAlreadyPlayedPopup ? (
     <div className={appModule['already-played-message']}>
-      <h2>You've already played today!</h2>
-      <p>Come back tomorrow for a new challenge.</p>
+      <h2>You can only play once!</h2>
+      <p>Come back tomorrow to play again.</p>
       <button 
         className={appModule['close-button']}
         onClick={() => setShowAlreadyPlayedPopup(false)} 

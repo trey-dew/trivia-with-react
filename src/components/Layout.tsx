@@ -8,8 +8,14 @@ import { gameModeAtom, homePageVisibleAtom, quizStartedAtom, resultsAtom, resetQ
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 
+// Helper function to get Central Time date string
+const getCentralTimeDateString = (date: Date = new Date()): string => {
+  const centralTime = new Date(date.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
+  return centralTime.toISOString().split('T')[0];
+};
+
 const Layout = () => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [pendingAction, setPendingAction] = useState<(() => void) | null>(null);
   const navigate = useNavigate();
@@ -25,7 +31,7 @@ const Layout = () => {
     if (gameMode === 'Archive' || gameMode === 'Endless') return false;
 
     try {
-      const today = new Date().toISOString().split('T')[0];
+      const today = getCentralTimeDateString(); // Use Central Time date
       const q = query(
         collection(db, 'quizResults'),
         where('dayString', '==', today),

@@ -23,6 +23,19 @@
     width: 100%;
     max-width: 100%;
     overflow: hidden;
+
+    video {
+      display: block;
+      width: auto;
+      height: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    @media (min-width: 768px) {
+      max-height: 60vh;
+      padding: 10px 0;
+    }
 }
 
 .controlls {

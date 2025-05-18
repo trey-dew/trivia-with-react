@@ -66,6 +66,12 @@ body {
     padding: 2rem;
     overflow-y: visible;
     margin-bottom: 0 !important;
+
+    @media (min-width: 1024px) { // Apply styles for larger screens
+      max-width: 960px; // Or another appropriate max-width
+      margin: 0 auto; // Center the content
+      padding: 2rem; // Keep padding
+    }
   }
   
 

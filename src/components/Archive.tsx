@@ -50,8 +50,8 @@ function Archive() {
     }
   
     // Disallow future dates
-    if (clickedDate > today) {
-      alert("That date is in the future!");
+    if (clickedDate >= today) {
+      alert("That date is not allowed");
       return;
     }
   

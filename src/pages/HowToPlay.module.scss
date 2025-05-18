@@ -3,8 +3,9 @@
   margin: 0 auto;
   padding: 1rem;
   color: #fff;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .title {

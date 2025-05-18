@@ -127,7 +127,7 @@ function ContactPage() {
 
   return (
     <div className={styles.contactContainer}>
-      <h1 className={styles.title}>Contact Us</h1>
+      <h1 className={styles.title}>Contact Me</h1>
 
       {submitted ? (
         <p className={styles.successMessage}>

@@ -6,7 +6,7 @@ import { Questions } from '../types';
 import QuestionComp from '../components/Question';
 import StatBar from '../components/statbar';
 import AnswerList from '../Answers.json'
-import { ErrorBoundary } from './Homepage';
+import { ErrorBoundary } from '../components/ErrorBoundary';
 
 import {
   currentQuestionIdxAtom,
@@ -30,9 +30,16 @@ const videoMap = import.meta.glob('../assets/videos/*.mp4', { eager: true });
 
 // gets and sets the date based off the question day value
 function getDateFromDayOffset(offset: number): string {
-  const baseDate = new Date(globalStartDate); // Months are 0-indexed (4 = May, May 8th 2025) CHANGE THIS IF WANT NEW START DATE
+  const baseDate = new Date(globalStartDate);
   baseDate.setDate(baseDate.getDate() + offset);
-  return baseDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+  // Convert to Central Time before formatting
+  const centralDate = new Date(baseDate.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
+  return centralDate.toLocaleDateString('en-US', { 
+    timeZone: 'America/Chicago',
+    month: 'short', 
+    day: 'numeric', 
+    year: 'numeric' 
+  });
 }
 
 // Get current day index based on Central Time Zone
@@ -114,7 +121,7 @@ function Quizpage() {
 
   // gets the quizdate from questions day
   const quizDate = gameMode !== 'Endless'
-    ? getDateFromDayOffset(currentQuestion?.day || 0)
+    ? getDateFromDayOffset(currentQuestion?.day + 1 || 0)
     : undefined;
 
   const videoSrc = !isQuizFinished && currentQuestion?.video
