@@ -37,12 +37,17 @@ function getDateFromDayOffset(offset: number): string {
 
 // Get current day index based on Central Time Zone
 function getCurrentDayIndex(): number {
-  const now = new Date();
-  const centralTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
-  const baseDate = new Date(globalStartDate); // May 8th, 2025
-  const diffTime = centralTime.getTime() - baseDate.getTime();
-  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-  return Math.max(0, diffDays); // Ensure we don't return negative days
+  try {
+    const now = new Date();
+    const centralTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
+    const baseDate = new Date(globalStartDate);
+    const diffTime = centralTime.getTime() - baseDate.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    return Math.max(0, diffDays);
+  } catch (error) {
+    console.error('Error in getCurrentDayIndex:', error);
+    return 0;
+  }
 }
 
 function Quizpage() {
@@ -75,8 +80,7 @@ function Quizpage() {
   
   const videoRef = useRef<HTMLVideoElement>(null);
 
-
-   //Reset quiz state when gameMode or archive day changes
+  //Reset quiz state when gameMode or archive day changes
   useEffect(() => {
     setResults([]);
     setCurrentQuestionIdx(0);
@@ -91,7 +95,7 @@ function Quizpage() {
     if (gameMode === 'Daily') {
       return (questions as Questions).questions.filter(q => q.day === currentDayIndex);
     } else if (gameMode === 'Endless') {
-       return (questions as Questions).questions.filter(q => q.day < currentDayIndex); // Only show questions from days that have been played
+       return (questions as Questions).questions.filter(q => q.day < currentDayIndex);
     } else if (gameMode === 'Hard') {
       return (questions as Questions).questions.filter(q => q.day === currentDayIndex);
     } else if (gameMode === 'Clean') {
@@ -242,6 +246,19 @@ function Quizpage() {
       });
     }
   }, [isQuizFinished]);
+
+  // Add effect to log state changes
+  useEffect(() => {
+    console.log('Quiz state updated:', JSON.stringify({
+      currentQuestionIdx,
+      correctAnswers,
+      incorrectAnswers,
+      isQuizFinished,
+      waitingToAdvance,
+      shouldEndAfterNext,
+      filteredQuestionsLength: filteredQuestions.length
+    }, null, 2));
+  }, [currentQuestionIdx, correctAnswers, incorrectAnswers, isQuizFinished, waitingToAdvance, shouldEndAfterNext]);
 
   const fallbackUI = (
     <div className={styles.appWrapper}>
