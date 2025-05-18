@@ -6,6 +6,7 @@ import { Questions } from '../types';
 import QuestionComp from '../components/Question';
 import StatBar from '../components/statbar';
 import AnswerList from '../Answers.json'
+import { ErrorBoundary } from './Homepage';
 
 import {
   currentQuestionIdxAtom,
@@ -242,42 +243,61 @@ function Quizpage() {
     }
   }, [isQuizFinished]);
 
-  return (
+  const fallbackUI = (
     <div className={styles.appWrapper}>
       <main className={styles.mainContent}>
-        <>
-          <StatBar
-            currentQuestion={currentQuestionIdx + 1}
-            totalQuestions={filteredQuestions.length}
-            correct={correctAnswers}
-            incorrect={incorrectAnswers}
-            quizDate={quizDate}
-          />
-          {videoSrc && (
-          <QuestionComp
-            question={currentQuestion}
-            videoSrc={videoSrc}
-            videoRef={videoRef}
-            playDisabled={playDisabled}
-            showReplay={showReplay}
-            onReplay={onReplay}
-            onSubmit={onSubmit}
-            gameMode={gameMode}
-            correctAnsers={AnswerList.answers}
-        />)}
-          {waitingToAdvance && (
-            <button
-              onClick={advance}
-              className={Classnames(Answer_module.answer, question_module['next-btn'])}
-            >
-              {currentQuestionIdx === filteredQuestions.length - 1 || shouldEndAfterNext
-                ? 'Show Results'
-                : 'Next Question...'}
-            </button>
-          )}
-        </>
+        <div style={{ textAlign: 'center', padding: '2rem' }}>
+          <h2>Something went wrong!</h2>
+          <p>We're sorry, but there was an error loading the quiz.</p>
+          <button 
+            onClick={() => navigate('/')}
+            className={styles.errorButton}
+          >
+            Return to Home
+          </button>
+        </div>
       </main>
     </div>
+  );
+
+  return (
+    <ErrorBoundary fallback={fallbackUI}>
+      <div className={styles.appWrapper}>
+        <main className={styles.mainContent}>
+          <>
+            <StatBar
+              currentQuestion={currentQuestionIdx + 1}
+              totalQuestions={filteredQuestions.length}
+              correct={correctAnswers}
+              incorrect={incorrectAnswers}
+              quizDate={quizDate}
+            />
+            {videoSrc && (
+            <QuestionComp
+              question={currentQuestion}
+              videoSrc={videoSrc}
+              videoRef={videoRef}
+              playDisabled={playDisabled}
+              showReplay={showReplay}
+              onReplay={onReplay}
+              onSubmit={onSubmit}
+              gameMode={gameMode}
+              correctAnsers={AnswerList.answers}
+            />)}
+            {waitingToAdvance && (
+              <button
+                onClick={advance}
+                className={Classnames(Answer_module.answer, question_module['next-btn'])}
+              >
+                {currentQuestionIdx === filteredQuestions.length - 1 || shouldEndAfterNext
+                  ? 'Show Results'
+                  : 'Next Question...'}
+              </button>
+            )}
+          </>
+        </main>
+      </div>
+    </ErrorBoundary>
   );
 }
 
