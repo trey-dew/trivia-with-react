@@ -31,10 +31,9 @@ const videoMap = import.meta.glob('../assets/videos/*.mp4', { eager: true });
 // gets and sets the date based off the question day value
 function getDateFromDayOffset(offset: number): string {
   const baseDate = new Date(globalStartDate);
-  baseDate.setDate(baseDate.getDate() + offset);
-  // Convert to Central Time before formatting
-  const centralDate = new Date(baseDate.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
-  return centralDate.toLocaleDateString('en-US', { 
+  const resultDate = new Date(baseDate.getTime() + (offset * 24 * 60 * 60 * 1000));
+  
+  return resultDate.toLocaleDateString('en-US', { 
     timeZone: 'America/Chicago',
     month: 'short', 
     day: 'numeric', 
@@ -46,11 +45,18 @@ function getDateFromDayOffset(offset: number): string {
 function getCurrentDayIndex(): number {
   try {
     const now = new Date();
-    const centralTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
     const baseDate = new Date(globalStartDate);
-    const diffTime = centralTime.getTime() - baseDate.getTime();
+    
+    // Convert both to Central Time and set to midnight for comparison
+    const centralNow = new Date(now.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
+    centralNow.setHours(0, 0, 0, 0);
+    
+    const centralBaseDate = new Date(baseDate.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
+    centralBaseDate.setHours(0, 0, 0, 0);
+    
+    const diffTime = centralNow.getTime() - centralBaseDate.getTime();
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    return Math.max(0, diffDays);
+    return Math.max(0, diffDays-1);
   } catch (error) {
     console.error('Error in getCurrentDayIndex:', error);
     return 0;

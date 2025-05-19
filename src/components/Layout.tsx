@@ -62,8 +62,7 @@ const Layout = () => {
     const hasPlayed = await checkExistingSubmission(selectedDifficulty);
     
     if (hasPlayed) {
-      // You might want to show a different message for this case
-      alert("You've already played this mode today!");
+      alert("You've already played the daily quiz");
       return;
     }
 
