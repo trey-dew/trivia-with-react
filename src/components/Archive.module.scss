@@ -41,6 +41,17 @@
     &:active {
       transform: scale(0.95);
     }
+  
+    &.disabled {
+      background: #3a3a3a;
+      cursor: not-allowed;
+      opacity: 0.5;
+  
+      &:hover {
+        background: #3a3a3a;
+        transform: none;
+      }
+    }
   }
   
   .calendarGrid {
@@ -85,6 +96,17 @@
   
     &:active {
       transform: scale(0.95);
+    }
+  
+    &.unavailable {
+      background: #1a1a1a;
+      color: #555;
+      cursor: not-allowed;
+  
+      &:hover {
+        background: #1a1a1a;
+        transform: none;
+      }
     }
   }
   

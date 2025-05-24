@@ -27,10 +27,22 @@ function Archive() {
     return new Date(year, month, 1).getDay();
   };
 
+  const isBeforeStartDate = (date: Date) => {
+    const startDate = new Date(globalStartDate);
+    return date < startDate;
+  };
+
   const navigateMonth = (direction: 'prev' | 'next') => {
     const newDate = new Date(currentDate);
     if (direction === 'prev') {
       newDate.setMonth(currentMonth - 1);
+      // Prevent going before May 2025
+      const startDate = new Date(globalStartDate);
+      if (newDate.getFullYear() < startDate.getFullYear() || 
+          (newDate.getFullYear() === startDate.getFullYear() && 
+           newDate.getMonth() < startDate.getMonth())) {
+        return;
+      }
     } else {
       newDate.setMonth(currentMonth + 1);
     }
@@ -39,17 +51,15 @@ function Archive() {
 
   const handleDayClick = (day: number) => {
     const clickedDate = new Date(currentYear, currentMonth, day);
-    const baseDate = new Date(globalStartDate); // e.g., April 20, 2025
+    const baseDate = new Date(globalStartDate);
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // ignore time portion
+    today.setHours(0, 0, 0, 0);
   
-    // Disallow dates before the archive start
     if (clickedDate < baseDate) {
       alert("That date is before the start of the quiz archive.");
       return;
     }
   
-    // Disallow future dates
     if (clickedDate >= today) {
       alert("That date is not allowed");
       return;
@@ -62,8 +72,6 @@ function Archive() {
     setGameMode('Archive');
     navigate(`/archive/day/${dayOffset}`);
   };
-  
-  
 
   const daysInMonth = getDaysInMonth(currentMonth, currentYear);
   const firstDay = getFirstDayOfMonth(currentMonth, currentYear);
@@ -92,12 +100,26 @@ function Archive() {
     return date > today;
   };
 
+  const isUnavailableDate = (date: Date | null) => {
+    if (!date) return false;
+    return isBeforeStartDate(date) || isFutureDate(date);
+  };
+
+  const canGoBack = () => {
+    const prevMonth = new Date(currentYear, currentMonth - 1, 1);
+    const startDate = new Date(globalStartDate);
+    return prevMonth.getFullYear() > startDate.getFullYear() || 
+           (prevMonth.getFullYear() === startDate.getFullYear() && 
+            prevMonth.getMonth() >= startDate.getMonth());
+  };
+
   return (
     <div className={styles.calendarContainer}>
       <header className={styles.calendarHeader}>
         <button 
-          className={styles.navButton}
+          className={`${styles.navButton} ${!canGoBack() ? styles.disabled : ''}`}
           onClick={() => navigateMonth('prev')}
+          disabled={!canGoBack()}
         >
           &lt;
         </button>
@@ -117,9 +139,9 @@ function Archive() {
           <div key={idx} className={styles.dayCell}>
             {day ? (
               <button 
-                className={`${styles.dayButton} ${isToday(date) ? styles.today : ''}`}
+                className={`${styles.dayButton} ${isToday(date) ? styles.today : ''} ${isUnavailableDate(date) ? styles.unavailable : ''}`}
                 onClick={() => handleDayClick(day)}
-                disabled={isFutureDate(date)}
+                disabled={isUnavailableDate(date)}
               >
                 {day}
               </button>
