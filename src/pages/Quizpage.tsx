@@ -85,6 +85,8 @@ function Quizpage() {
   const [hasPaused, setHasPaused] = useState(false);
   const [questionTimes, setQuestionTimes] = useState<number[]>([]);
   const [shouldEndAfterNext, setShouldEndAfterNext] = useState(false);
+  const [autoReplay, setAutoReplay] = useState(true);
+  const [hasAnswered, setHasAnswered] = useState(false);
 
   // Use the URL param as the source of truth for Archive mode
   const archiveDayFromUrl = gameMode === 'Archive' && /^\d+$/.test(dayId || '')
@@ -149,7 +151,18 @@ function Quizpage() {
     if(timeTaken !== undefined) {
       setQuestionTimes(times => [...times, timeTaken]);
     }
-    setPlayFullVideo(true);
+
+    setHasAnswered(true);
+    if (autoReplay) {
+      setPlayFullVideo(true);
+    } else {
+      // In resume mode, just continue playing from current position
+      if (videoRef.current) {
+        videoRef.current.play().catch(() => {
+          // Ignore play interruption errors
+        });
+      }
+    }
     setWaitingToAdvance(true);
   };
 
@@ -158,6 +171,7 @@ function Quizpage() {
     setWaitingToAdvance(false);
     setPlayFullVideo(false);
     setHasPaused(false);
+    setHasAnswered(false);  // Reset hasAnswered for new question
   
     if (shouldEndAfterNext) {
       navigate('/results', {
@@ -176,12 +190,25 @@ function Quizpage() {
   // Replay from start time
   const onReplay = () => {
     if (videoRef.current && videoSrc) {
-      videoRef.current.currentTime = currentQuestion.start;
-      videoRef.current.play();
+      if (autoReplay) {
+        videoRef.current.currentTime = currentQuestion.start;
+      }
+      videoRef.current.play().catch(() => {
+        // Ignore play interruption errors
+      });
       setShowReplay(false);
       setPlayDisabled(false);
     }
   };
+
+  // Reset states when question changes
+  useEffect(() => {
+    if (isQuizFinished || !videoSrc) return;
+    setPlayDisabled(false);
+    setShowReplay(false);
+    setHasAnswered(false);
+    setHasPaused(false);
+  }, [currentQuestionIdx, isQuizFinished, videoSrc]);
 
   // Set up video time-based logic (pausing at set time unless watching full video)
   useEffect(() => {
@@ -189,14 +216,10 @@ function Quizpage() {
     const video = videoRef.current;
     if (!video) return;
 
-    video.load();
-    video.play();
-    setPlayDisabled(false);
-    setShowReplay(false);
-
     const handleTimeUpdate = () => {
       const pauseTime = currentQuestion.pause;
-      if (!playFullVideo && video.currentTime >= pauseTime && !hasPaused) {
+      // Only pause if we haven't answered yet and not in full video mode
+      if (!playFullVideo && video.currentTime >= pauseTime && !hasPaused && !hasAnswered) {
         video.pause();
         setPlayDisabled(true);
         setShowReplay(true);
@@ -205,17 +228,27 @@ function Quizpage() {
     };
 
     const handleVideoEnded = () => {
-      setShowReplay(true);
+      if (autoReplay && !hasAnswered) {
+        setShowReplay(true);
+      }
     };
 
     video.addEventListener('timeupdate', handleTimeUpdate);
     video.addEventListener('ended', handleVideoEnded);
 
+    // Initial video setup
+    if (autoReplay) {
+      video.currentTime = currentQuestion.start;
+    }
+    video.play().catch(() => {
+      // Ignore play interruption errors
+    });
+
     return () => {
       video.removeEventListener('timeupdate', handleTimeUpdate);
       video.removeEventListener('ended', handleVideoEnded);
     };
-  }, [currentQuestionIdx, playFullVideo, isQuizFinished, videoSrc]);
+  }, [currentQuestionIdx, playFullVideo, isQuizFinished, videoSrc, autoReplay, hasAnswered]);
 
   useEffect(() => {
     if (gameMode === 'Archive' && archiveDayFromUrl !== null) {
@@ -228,24 +261,16 @@ function Quizpage() {
   }, [archiveDayFromUrl, gameMode]);
   
 
-  // Jump to current question's start time whenever video changes
-  useEffect(() => {
-    if (isQuizFinished || !videoSrc) return;
-    const video = videoRef.current;
-    if (video) {
-      video.currentTime = currentQuestion.start;
-      video.play();
-    }
-  }, [videoSrc]);
-
   // If full video playback is enabled, restart from the beginning
   useEffect(() => {
     if (isQuizFinished || !videoSrc) return;
-    if (playFullVideo && videoRef.current) {
+    if (playFullVideo && videoRef.current && autoReplay) {
       videoRef.current.currentTime = 0;
-      videoRef.current.play();
+      videoRef.current.play().catch(() => {
+        // Ignore play interruption errors
+      });
     }
-  }, [playFullVideo]);
+  }, [playFullVideo, autoReplay]);
 
   // Redirect to results screen when quiz ends
   useEffect(() => {
@@ -288,6 +313,8 @@ function Quizpage() {
               correct={correctAnswers}
               incorrect={incorrectAnswers}
               quizDate={quizDate}
+              autoReplay={autoReplay}
+              onAutoReplayChange={setAutoReplay}
             />
             {videoSrc && (
             <QuestionComp

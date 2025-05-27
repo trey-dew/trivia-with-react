@@ -19,6 +19,20 @@ function Archive() {
   const setGameMode = useSetAtom(gameModeAtom);
   const setSelectedArchiveDay = useSetAtom(selectedArchiveDayAtom);
 
+  /* TEMPORARY DEV MODE - DELETE THIS BLOCK WHEN DONE TESTING */
+  const [isDevMode, setIsDevMode] = useState(false);
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'l') {
+        setIsDevMode(prev => !prev);
+        console.log('Dev mode:', !isDevMode);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isDevMode]);
+  /* END TEMPORARY DEV MODE */
+
   const getDaysInMonth = (month: number, year: number) => {
     return new Date(year, month + 1, 0).getDate();
   };
@@ -60,10 +74,12 @@ function Archive() {
       return;
     }
   
-    if (clickedDate >= today) {
+    /* TEMPORARY DEV MODE - DELETE THIS BLOCK WHEN DONE TESTING */
+    if (!isDevMode && clickedDate >= today) {
       alert("That date is not allowed");
       return;
     }
+    /* END TEMPORARY DEV MODE */
   
     const timeDiff = clickedDate.getTime() - baseDate.getTime();
     const dayOffset = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
@@ -97,7 +113,9 @@ function Archive() {
     if (!date) return false;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    return date > today;
+    /* TEMPORARY DEV MODE - DELETE THIS BLOCK WHEN DONE TESTING */
+    return !isDevMode && date > today;
+    /* END TEMPORARY DEV MODE */
   };
 
   const isUnavailableDate = (date: Date | null) => {
@@ -115,6 +133,13 @@ function Archive() {
 
   return (
     <div className={styles.calendarContainer}>
+      {/* TEMPORARY DEV MODE - DELETE THIS BLOCK WHEN DONE TESTING */}
+      {isDevMode && (
+        <div className={styles.devModeIndicator}>
+          Dev Mode Active
+        </div>
+      )}
+      {/* END TEMPORARY DEV MODE */}
       <header className={styles.calendarHeader}>
         <button 
           className={`${styles.navButton} ${!canGoBack() ? styles.disabled : ''}`}

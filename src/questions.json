@@ -261,7 +261,7 @@
             "start": 0,
             "pause": 2,
             "day": 4,
-            "answer": "I Thought you were American",
+            "answer": "I thought you were American",
             "isClean": false
         },
         {
@@ -419,6 +419,28 @@
             "isClean": true
         },
         {
+            "question": "What does grandma say?",
+            "options": ["they're coming back","yeah", "no im at home", "they forgot me"],
+            "correctAnswerIdx": 1,
+            "video": "left_grandma.mp4",
+            "start": 0,
+            "pause": 5.5,
+            "day": 7,
+            "answer": "yeah",
+            "isClean": true
+        },
+        {
+            "question": "What does this man say about shaving cream?",
+            "options": ["wait, you eat shaving cream?","oh me neither", "I dont eat shaving cream", "why would you eat the shaving cream?"],
+            "correctAnswerIdx": 0,
+            "video": "shaving_cream.mp4",
+            "start": 0,
+            "pause": 3,
+            "day": 7,
+            "answer": "wait, you eat shaving cream?",
+            "isClean": true
+        },
+        {
             "question": "What does this man almost drop?",
             "options": ["His plate","His croissant", "His marbles", "His chips"],
             "correctAnswerIdx": 1,
@@ -435,7 +457,7 @@
             "correctAnswerIdx": 1,
             "video": "power_of_god.mp4",
             "start": 0,
-            "pause": 4,
+            "pause": 3.7,
             "day": 8,
             "answer": "The power of God and anime",
             "isClean": false
@@ -446,7 +468,7 @@
             "correctAnswerIdx": 2,
             "video": "whatcha_gonna_do.mp4",
             "start": 0,
-            "pause": 2,
+            "pause": 2.4,
             "day": 8,
             "answer": "Whatcha gonna do",
             "isClean": true
@@ -457,7 +479,7 @@
             "correctAnswerIdx": 3,
             "video": "in_me_moms_car.mp4",
             "start": 0,
-            "pause": 4.7,
+            "pause": 4,
             "day": 8,
             "answer": "get out me car",
             "isClean": true
@@ -545,7 +567,7 @@
             "correctAnswerIdx": 1,
             "video": "big_pizza.mp4",
             "start": 0,
-            "pause": 4,
+            "pause": 4.6,
             "day": 10,
             "answer": "Why the fuck did you order a pizza",
             "isClean": false
@@ -567,7 +589,7 @@
             "correctAnswerIdx": 0,
             "video": "surfer_interview.mp4",
             "start": 0,
-            "pause": 3,
+            "pause": 2.5,
             "day": 10,
             "answer": "Hwah bam, drop down balaha",
             "isClean": true
@@ -611,7 +633,7 @@
             "correctAnswerIdx": 0,
             "video": "fuck_your_chicken_strips.mp4",
             "start": 0,
-            "pause": 2,
+            "pause": 1.5,
             "day": 11,
             "answer": "Fuck your chicken strips",
             "isClean": false
@@ -629,11 +651,11 @@
         },
         {
             "question": "What does this man say is free?",
-            "options": ["homes for you","Free property", "large house", "real estate"],
+            "options": ["homes for you","property", "large house", "real estate"],
             "correctAnswerIdx": 3,
             "video": "free_real_estate.mp4",
             "start": 0,
-            "pause": 1.25,
+            "pause": 1.1,
             "day": 11,
             "answer": "real estate",
             "isClean": true
@@ -666,7 +688,7 @@
             "correctAnswerIdx": 2,
             "video": "better_than_pussy.mp4",
             "start": 0,
-            "pause": 2,
+            "pause": 2.6,
             "day": 12,
             "answer": "A really good book",
             "isClean": false
@@ -721,7 +743,7 @@
             "correctAnswerIdx": 3,
             "video": "gimme_your_money.mp4",
             "start": 0,
-            "pause": 1,
+            "pause": 0.7,
             "day": 13,
             "answer": "fuckin money",
             "isClean": false
@@ -734,7 +756,7 @@
             "start": 0,
             "pause": 4,
             "day": 13,
-            "answer": "Sometimes",
+            "answer": "Yes, Sometimes",
             "isClean": true
         },
         {
@@ -749,12 +771,12 @@
             "isClean": true
         },
         {
-            "question": "What does this man say about his elbow?",
-            "options": ["That you hate me","Broke your eblow", "Broke your wrist", "About what the teacher says"],
+            "question": "What does this man say next?",
+            "options": ["That you hate me","Broke your elbow", "Broke your wrist", "About what the teacher says"],
             "correctAnswerIdx": 1,
             "video": "broke_elbow.mp4",
             "start": 0,
-            "pause": 4,
+            "pause": 4.426,
             "day": 14,
             "answer": "Broke your elbow",
             "isClean": true
@@ -765,9 +787,9 @@
             "correctAnswerIdx": 3,
             "video": "adult_virgin.mp4",
             "start": 0,
-            "pause": 3,
+            "pause": 3.3,
             "day": 14,
-            "answer": "Adult virgin",
+            "answer": "I'm an Adult virgin",
             "isClean": true
         },
         {
@@ -798,7 +820,7 @@
             "correctAnswerIdx": 2,
             "video": "im_liberian.mp4",
             "start": 0,
-            "pause": 2,
+            "pause": 2.2,
             "day": 14,
             "answer": "I'm Liberian",
             "isClean": true
@@ -809,7 +831,7 @@
             "correctAnswerIdx": 3,
             "video": "basketball_tomorrow.mp4",
             "start": 0,
-            "pause": 4,
+            "pause": 4.2,
             "day": 15,
             "answer": "Shoe game",
             "isClean": true
@@ -842,7 +864,7 @@
             "correctAnswerIdx": 3,
             "video": "johnnys_soap.mp4",
             "start": 0,
-            "pause": 4,
+            "pause": 4.5,
             "day": 15,
             "answer": "Mind your business david",
             "isClean": true
@@ -886,7 +908,7 @@
             "correctAnswerIdx": 1,
             "video": "try_me_bitch.mp4",
             "start": 0,
-            "pause": 3,
+            "pause": 2.8,
             "day": 16,
             "answer": "Try me bitch",
             "isClean": false
@@ -908,20 +930,20 @@
             "correctAnswerIdx": 3,
             "video": "burnt_chicken_nugget.mp4",
             "start": 0,
-            "pause": 3,
+            "pause": 3.6,
             "day": 16,
             "answer": "A Burnt chicken nugget",
             "isClean": true
         },
         {
             "question": "What does she say she'll do?",
-            "options": ["tell her mom and dad","call the police", "fight an adult", "start a revolution"],
+            "options": ["tell her mom and dad", "show the police", "fight an adult", "start a revolution"],
             "correctAnswerIdx": 1,
             "video": "teachers_stop_acting.mp4",
             "start": 0,
-            "pause": 4,
+            "pause": 5,
             "day": 17,
-            "answer": "call the police",
+            "answer": "show the police",
             "isClean": true
         },
         {
@@ -930,7 +952,7 @@
             "correctAnswerIdx": 0,
             "video": "went_to_uber.mp4",
             "start": 0,
-            "pause": 3,
+            "pause": 2.8,
             "day": 17,
             "answer": "OOVOO JAVER",
             "isClean": true
@@ -952,7 +974,7 @@
             "correctAnswerIdx": 1,
             "video": "kick_flip.mp4",
             "start": 0,
-            "pause": 4,
+            "pause": 3.5,
             "day": 17,
             "answer": "I did one this morning",
             "isClean": true
@@ -963,32 +985,10 @@
             "correctAnswerIdx": 3,
             "video": "why_no_penis.mp4",
             "start": 0,
-            "pause": 2,
+            "pause": 4.5,
             "day": 17,
             "answer": "Why dont i have a penis",
             "isClean": true
-        },
-        {
-            "question": "What does grandma say?",
-            "options": ["they're coming back","yeah", "no im at home", "they forgot me"],
-            "correctAnswerIdx": 1,
-            "video": "left_grandma.mp4",
-            "start": 0,
-            "pause": 5,
-            "day": 18,
-            "answer": "yeah",
-            "isClean": true
-        },
-        {
-            "question": "What does this man say about shaving cream?",
-            "options": ["you eat shaving cream?","oh me neither", "I dont eat shaving cream", "why would you eat the shaving cream?"],
-            "correctAnswerIdx": 0,
-            "video": "shaving_cream.mp4",
-            "start": 0,
-            "pause": 3,
-            "day": 18,
-            "answer": "you eat shaving cream?",
-            "isClean": true
-        }
+        }      
     ]
 }
