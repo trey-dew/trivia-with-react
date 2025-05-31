@@ -696,7 +696,7 @@
         {
             "question": "What does this man say next?",
             "options": ["Fried Taco","Free Taco", "Free meal", "Fried lunch"],
-            "correctAnswerIdx": 0,
+            "correctAnswerIdx": 1,
             "video": "free_taco.mp4",
             "start": 0,
             "pause": 3,
