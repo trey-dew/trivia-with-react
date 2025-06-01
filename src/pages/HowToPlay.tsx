@@ -5,10 +5,13 @@ function HowToPlay() {
         <div className={styles.howToPlayContainer}>
             <h1 className={styles.title}>How To Play</h1>
             
-            <div className={styles.section}>
+            <div className={styles.section} >
                 <h2>Basics</h2>
-                <p>Watch the popular Vine and complete the punchline of the video.</p>
-                <p>You only get one attempt at the daily quiz, regardless of the game mode.</p>
+                 <ul>
+                    <li>Watch the popular Vine and complete the punchline of the video.</li>
+                    <li>You only get one attempt at the daily quiz, regardless of the game mode.</li>
+                    <li>This quiz will only be updated until June 30th</li>
+                </ul>
             </div>
 
             <div className={styles.gameModes}>
