@@ -54,7 +54,7 @@ function Archive() {
       const startDate = new Date(globalStartDate);
       if (newDate.getFullYear() < startDate.getFullYear() || 
           (newDate.getFullYear() === startDate.getFullYear() && 
-           newDate.getMonth() < startDate.getMonth())) {
+           newDate.getMonth() < startDate.getMonth() +1)) {
         return;
       }
     } else {
@@ -128,7 +128,7 @@ function Archive() {
     const startDate = new Date(globalStartDate);
     return prevMonth.getFullYear() > startDate.getFullYear() || 
            (prevMonth.getFullYear() === startDate.getFullYear() && 
-            prevMonth.getMonth() >= startDate.getMonth());
+            prevMonth.getMonth() >= startDate.getMonth()+1);
   };
 
   return (

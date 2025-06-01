@@ -12,7 +12,6 @@ export const userId = atom<string>('')
 export const hasSubmitted = atom<boolean>(false)
 export const resultsAtom = atom<QuizResult[]>([]);
 export const globalStartDate = "2025-05-31T07:00:00.000Z";  // This will be midnight Central Time on June 1st
-
 // Reset helper atom
 export const resetQuizAtom = atom(null, (get, set) => {
     set(currentQuestionIdxAtom, 0);
