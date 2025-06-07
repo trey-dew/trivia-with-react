@@ -248,7 +248,7 @@ function Quizpage() {
       video.removeEventListener('timeupdate', handleTimeUpdate);
       video.removeEventListener('ended', handleVideoEnded);
     };
-  }, [currentQuestionIdx, playFullVideo, isQuizFinished, videoSrc, autoReplay, hasAnswered]);
+  }, [currentQuestionIdx, playFullVideo, isQuizFinished, videoSrc, hasAnswered]);
 
   useEffect(() => {
     if (gameMode === 'Archive' && archiveDayFromUrl !== null) {

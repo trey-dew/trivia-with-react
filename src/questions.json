@@ -989,6 +989,204 @@
             "day": 17,
             "answer": "Why dont i have a penis",
             "isClean": true
-        }      
+        },
+        {
+            "question": "What is the punchline of this vine?",
+            "options": ["There are so many races like the 100m", "What about all the other races?", "What about nascar", "Thats okay, i dont mind"],
+            "correctAnswerIdx": 2,
+            "video": "human_race.mp4",
+            "start": 0,
+            "pause": 2.5,
+            "day": 18,
+            "answer": "What about nascar",
+            "isClean": true
+        },
+        {
+            "question": "What does david say he is?",
+            "options": ["im sad", "im happy", "im angry", "im confused"],
+            "correctAnswerIdx": 0,
+            "video": "emotions.mp4",
+            "start": 0,
+            "pause": 4.8,
+            "day": 18,
+            "answer": "im sad",
+            "isClean": true
+        },
+        {
+            "question": "What does this man say his name is?",
+            "options": ["Large Boss", "Big Tony", "Tall chad", "Skinny penis"],
+            "correctAnswerIdx": 3,
+            "video": "skinny_pennis.mp4",
+            "start": 0,
+            "pause": 4.5,
+            "day": 18,
+            "answer": "Skinny penis",
+            "isClean": true
+        },
+        {
+            "question": "What does the customer say here?",
+            "options": ["Yes i am sir", "No why would i be", "No im not", "Yes give me that discount"],
+            "correctAnswerIdx": 2,
+            "video": "super_shoppers.mp4",
+            "start": 0,
+            "pause": 3,
+            "day": 18,
+            "answer": "No im not",
+            "isClean": true
+        },
+        {
+            "question": "What does this person say?",
+            "options": ["Butters my eggroll", "Does it right for me", "turns it on good", "Make me feel all nice"],
+            "correctAnswerIdx": 0,
+            "video": "egg_roll.mp4",
+            "start": 0,
+            "pause": 5.6,
+            "day": 18,
+            "answer": "Butters my eggroll",
+            "isClean": true
+        },
+        {
+            "question": "What does she say to the operator?",
+            "options": ["its chilis", "its digiorno", "its britney", "idk you called me"],
+            "correctAnswerIdx": 1,
+            "video": "its_digiorno.mp4",
+            "start": 0,
+            "pause": 4.5,
+            "day": 19,
+            "answer": "its digiorno",
+            "isClean": true
+        },
+        {
+            "question": "What does lucy want to do when president?",
+            "options": ["make ice cream free", "make homework illegal", "make slavery legal again", "Find aliens"],
+            "correctAnswerIdx": 2,
+            "video": "slavery_legal.mp4",
+            "start": 0,
+            "pause": 3.8,
+            "day": 19,
+            "answer": "make slavery legal again",
+            "isClean": true
+        },
+        {
+            "question": "Whats the scoop?",
+            "options": ["avacado", "piss", "vagina", "penis"],
+            "correctAnswerIdx": 3,
+            "video": "whats_scoop.mp4",
+            "start": 0,
+            "pause": 2,
+            "day": 19,
+            "answer": "penis",
+            "isClean": false
+        },
+        {
+            "question": "What does this person say in response?",
+            "options": ["Happy Birthday?", "im sorry", "What do you want me to do?", "What day is it?"],
+            "correctAnswerIdx": 0,
+            "video": "birthday.mp4",
+            "start": 0,
+            "pause": 8,
+            "day": 19,
+            "answer": "Happy Birthday?",
+            "isClean": false
+        },
+        {
+            "question": "How does this song end?",
+            "options": ["You are my dad, Thats awesome", "You're my dad, Boogie woogie woogie", "I need a dad, Im a dad!", "Where is my dad? theres my dad!"],
+            "correctAnswerIdx": 1,
+            "video": "you_are_my_dad.mp4",
+            "start": 0,
+            "pause": 2,
+            "day": 19,
+            "answer": "You're my dad, Boogie woogie woogie",
+            "isClean": true
+        },
+        {
+            "question": "What does obama say next?",
+            "options": ["and pussy too", "and a side of mac", "and a cold brew", "and the lord be with you"],
+            "correctAnswerIdx": 0,
+            "video": "ribs_and_pussy.mp4",
+            "start": 0,
+            "pause": 3,
+            "day": 20,
+            "answer": "and pussy too",
+            "isClean": false
+        },
+        {
+            "question": "What does this person say?",
+            "options": ["This sweet treat", "crispy delight", "This yummy bar", "blue bar"],
+            "correctAnswerIdx": 3,
+            "video": "blue_bar.mp4",
+            "start": 0,
+            "pause": 5,
+            "day": 20,
+            "answer": "blue bar",
+            "isClean": true
+        },
+        {
+            "question": "How does this video get interrupted?",
+            "options": ["a wild penguin", "I'm a giraffe", "somone falls over", "someone hits them"],
+            "correctAnswerIdx": 1,
+            "video": "im_a_giraffe.mp4",
+            "start": 0,
+            "pause": 1,
+            "day": 20,
+            "answer": "I'm a giraffe",
+            "isClean": true
+        },
+        {
+            "question": "What does this person say?",
+            "options": ["Hello good sir", "Howdy", "Good evening", "Well well well"],
+            "correctAnswerIdx": 2,
+            "video": "good_evening.mp4",
+            "start": 0,
+            "pause": 2.7,
+            "day": 20,
+            "answer": "Good evening",
+            "isClean": true
+        },
+        {
+            "question": "What does this person say next?",
+            "options": ["Hurricane tortilla", "Hurrican Irene", "Hurrican Ida", "Hurricane Chad"],
+            "correctAnswerIdx": 0,
+            "video": "hurrican_tortilla.mp4",
+            "start": 0,
+            "pause": 3.5,
+            "day": 20,
+            "answer": "Hurricane tortilla",
+            "isClean": true
+        },
+        {
+            "question": "What does this person say?",
+            "options": ["Eww gross", "tastes like shit", "That was gross", "Fuck you"],
+            "correctAnswerIdx": 3,
+            "video": "soda_fuck.mp4",
+            "start": 0,
+            "pause": 4,
+            "day": 1,
+            "answer": "Fuck you",
+            "isClean": false
+        },
+        {
+            "question": "What is the rest of the sentence",
+            "options": ["a bowl of oatmeal", "wet concrete", "molasses", "honey"],
+            "correctAnswerIdx": 0,
+            "video": "bowl_of_oatmeal.mp4",
+            "start": 0,
+            "pause": 1.3,
+            "day": 1,
+            "answer": "a bowl of oatmeal",
+            "isClean": true
+        },
+        {
+            "question": "What does this person say about the bottle?",
+            "options": ["reuse the bottle", "make a vase", "smash the bottle", "eat the bottle"],
+            "correctAnswerIdx": 3,
+            "video": "eat_bottle.mp4",
+            "start": 0,
+            "pause": 3.5,
+            "day": 1,
+            "answer": "eat the bottle",
+            "isClean": true
+        }
     ]
 }
