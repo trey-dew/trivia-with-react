@@ -1451,6 +1451,204 @@
             "day": 26,
             "answer": "its shi-thead",
             "isClean": false
+        },
+        {
+            "question": "What does he say next?",
+            "options": ["Thanks", "oh my god", "noooo", "that was wild"],
+            "correctAnswerIdx": 1,
+            "video": "rum_and_coke.mp4",
+            "start": 0,
+            "pause": 5,
+            "day": 26,
+            "answer": "oh my god",
+            "isClean": true
+        },
+        {
+            "question": "what does he ask this dog?",
+            "options": ["wheres your license", "wheres your owner", "what kind of car is that", "where'd you learn to drive"],
+            "correctAnswerIdx": 3,
+            "video": "learn_to_drive.mp4",
+            "start": 0,
+            "pause": 4,
+            "day": 26,
+            "answer": "where'd you learn to drive",
+            "isClean": true
+        },
+        {
+            "question": "What does she say?",
+            "options": ["turn that up", "this new rap is bad", "what are they saying", "who is this"],
+            "correctAnswerIdx": 2,
+            "video": "what_they_saying.mp4",
+            "start": 0,
+            "pause": 4,
+            "day": 26,
+            "answer": "what are they saying",
+            "isClean": true
+        },
+        {
+            "question": "what does he say?",
+            "options": ["thats crazy", "wow dude", "that was wacko", "holy moly"],
+            "correctAnswerIdx": 3,
+            "video": "holy_moly.mp4",
+            "start": 0,
+            "pause": 2,
+            "day": 27,
+            "answer": "holy moly",
+            "isClean": true
+        },
+        {
+            "question": "What does he say next?",
+            "options": ["Im not respoding to your email", "I didn't leave that mess in the microwave", "I dont think you should work here", "Im not going to your fuckin baby shower"],
+            "correctAnswerIdx": 3,
+            "video": "fuck_off_janet.mp4",
+            "start": 0,
+            "pause": 3,
+            "day": 27,
+            "answer": "Im not going to your baby shower",
+            "isClean": false
+        },
+        {
+            "question": "What happens next in this video?",
+            "options": ["wheres my dick at?", "is this gonna hurt", "where are my gums", "where are my teeth"],
+            "correctAnswerIdx": 0,
+            "video": "where_dick.mp4",
+            "start": 0,
+            "pause": 5,
+            "day": 27,
+            "answer": "wheres my dick at?",
+            "isClean": true
+        },
+        {
+            "question": "what is the rest of her sentance?",
+            "options": ["all the weird people...", "all the rascist people...", "all the white people...", "all the freak people..."],
+            "correctAnswerIdx": 2,
+            "video": "haha_to_white.mp4",
+            "start": 0,
+            "pause": 1.5,
+            "day": 27,
+            "answer": "all the white people...",
+            "isClean": true
+        },
+        {
+            "question": "what doe he say next?",
+            "options": ["red robin", "Yum", "im not falling for that", "silence"],
+            "correctAnswerIdx": 1,
+            "video": "red_robin.mp4",
+            "start": 0,
+            "pause": 4,
+            "day": 27,
+            "answer": "Yum",
+            "isClean": true
+        },
+        {
+            "question": "Who is his favorite screamo band?",
+            "options": ["one direction", "big time rush", "Hannah Montana", "5 seconds of summer"],
+            "correctAnswerIdx": 1,
+            "video": "screamo_band.mp4",
+            "start": 0,
+            "pause": 3,
+            "day": 28,
+            "answer": "big time rush",
+            "isClean": true
+        },
+        {
+            "question": "What does he open up about?",
+            "options": ["being abused", "dog was best friend", "eating dog food", "fighting for food"],
+            "correctAnswerIdx": 2,
+            "video": "open_up.mp4",
+            "start": 0,
+            "pause": 3,
+            "day": 28,
+            "answer": "eating dog food",
+            "isClean": true
+        },
+        {
+            "question": "what is his reply?",
+            "options": ["I wont", "come and get it big boy", "no way", "fuck you"],
+            "correctAnswerIdx": 3,
+            "video": "drop_the_knife.mp4",
+            "start": 0,
+            "pause": 4,
+            "day": 28,
+            "answer": "fuck you",
+            "isClean": false
+        },
+        {
+            "question": "What happens in this video?",
+            "options": ["um, fuck you?", "cant do that", "where is your manners", "coming right up sir"],
+            "correctAnswerIdx": 0,
+            "video": "have_a_sprite.mp4",
+            "start": 0,
+            "pause": 3,
+            "day": 28,
+            "answer": "um, fuck you?",
+            "isClean": true
+        },
+        {
+            "question": "what does he say next?",
+            "options": ["dont say that", "watch your profanity", "please dont swear", "oh goodness me"],
+            "correctAnswerIdx": 1,
+            "video": "watch_profanity.mp4",
+            "start": 0,
+            "pause": 2,
+            "day": 28,
+            "answer": "watch your profanity",
+            "isClean": true
+        },
+        {
+            "question": "What does this shovel sound like?",
+            "options": ["Nirvana song", "Led Zeplin song", "Bon Jovi song", "Green Day song"],
+            "correctAnswerIdx": 0,
+            "video": "smells_like_teen.mp4",
+            "start": 0,
+            "pause": 4.5,
+            "day": 29,
+            "answer": "Nirvana song",
+            "isClean": true
+        },
+        {
+            "question": "what name does he give his invention?",
+            "options": ["Butt nutter", "Greasy oil peanuts", "butt peaner", "Sticky nut juice"],
+            "correctAnswerIdx": 3,
+            "video": "pb_name.mp4",
+            "start": 0,
+            "pause": 3,
+            "day": 29,
+            "answer": "Sticky nut juice",
+            "isClean": false
+        },
+        {
+            "question": "What does he say next?",
+            "options": ["oh thats nice", "what a weird thing to say", "me to kid", "i dont have one either"],
+            "correctAnswerIdx": 3,
+            "video": "have_no_soul.mp4",
+            "start": 0,
+            "pause": 2,
+            "day": 29,
+            "answer": "i dont have one either",
+            "isClean": true
+        },
+        {
+            "question": "What does he say next?",
+            "options": ["find another gay snail", "find another gay lover", "find another friend like steve", "ill never be married now"],
+            "correctAnswerIdx": 0,
+            "video": "gay_snail.mp4",
+            "start": 0,
+            "pause": 4,
+            "day": 29,
+            "answer": "find another gay snail",
+            "isClean": true
+        },
+        {
+            "question": "How much was her foundation?",
+            "options": ["14.99", "48 dollars", "pricessless", "84 dollars"],
+            "correctAnswerIdx": 1,
+            "video": "foundation.mp4",
+            "start": 0,
+            "pause": 4.8,
+            "day": 29,
+            "answer": "48 dollars",
+            "isClean": true
         }
     ]
 }

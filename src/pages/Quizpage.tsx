@@ -7,6 +7,7 @@ import QuestionComp from '../components/Question';
 import StatBar from '../components/statbar';
 import AnswerList from '../Answers.json'
 import { ErrorBoundary } from '../components/ErrorBoundary';
+import resultsStyles from './Resultspage.module.scss';
 
 import {
   currentQuestionIdxAtom,
@@ -66,6 +67,35 @@ function getCurrentDayIndex(): number {
 function Quizpage() {
   const navigate = useNavigate();
   const { dayId } = useParams();
+
+  // Check if today is after June 30, 2025 (Central Time)
+  const isAfterQuizEnd = (() => {
+    const now = new Date();
+    // Central Time
+    const centralNow = new Date(now.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
+    // June 30, 2025 23:59:59 Central Time
+    const quizEnd = new Date('2025-07-01T00:00:00-05:00');
+    return centralNow >= quizEnd;
+  })();
+
+  if (isAfterQuizEnd) {
+    return (
+      <div className={styles.appWrapper}>
+        <main className={styles.mainContent}>
+          <div style={{ textAlign: 'center', padding: '2rem' }}>
+            <h2 style={{ color: '#4CAF50' }}>The daily quiz has ended!</h2>
+            <p style={{ color: '#4CAF50' }}>You can still access all previous quizzes in the archive.</p>
+            <button
+              className={resultsStyles.shareButton}
+              onClick={() => navigate('/archive')}
+            >
+              Go to Archive
+            </button>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   // Global state (Jotai atoms)
   const [currentQuestionIdx, setCurrentQuestionIdx] = useAtom(currentQuestionIdxAtom);
